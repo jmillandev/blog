@@ -1,0 +1,25 @@
+{{ define "styles" }}
+{{ $.Scratch.Set "style_opts" (dict "src" "scss/pages/about.scss" "dest" "css/about.css") }}
+{{ end }}
+
+{{ define "main" }}
+
+<div class="splash-container">
+    <div class="splash" style="display:flex; align-items:center; flex-direction: column;">
+        {{ with .Site.Params.avatarurl }}
+        <div class="avatar">
+            <img src="{{ . | relURL }}" alt="avatar" style="width: 13rem;height: auto;border-radius: 50%;">
+        </div>
+        {{ end }}
+        <h1>{{ .Params.heading }}<span class="fancy">.</span></h1>
+        {{ if isset .Params "handle" }}
+        <span class="handle">@{{ .Params.handle }}</span>
+        {{ end }}
+        <h2 style="text-align: center;">
+            {{ .Params.subheading }}
+        </h2>
+        {{ partial "social-icons.html" .}}
+    </div>
+</div>
+
+{{ end }}
