@@ -1,0 +1,52 @@
+time python examples/asyncronia_en_python/threads.py                                                                                                
+19:02:45 Received orders                                                                                                                              
+19:02:45 <Waiter: 1> [Order: 0] ********Request order!********                                                                                        
+19:02:45 <Waiter: 1> [Order: 0] Request burger. Wait 7.5 seg...                                                                                       
+19:02:45 <Waiter: 2> [Order: 1] ********Request order!********                                                                                        
+19:02:45 <Waiter: 2> [Order: 1] Request burger. Wait 7.5 seg...                                                                                       
+19:02:52 <Waiter: 1> [Order: 0] Done burger                                                                                                           
+19:02:52 <Waiter: 1> [Order: 0] Request soda. Wait 1 seg...                                                                                           
+19:02:52 <Waiter: 2> [Order: 1] Done burger                                                                                                           
+19:02:52 <Waiter: 2> [Order: 1] Request burger. Wait 7.5 seg...                                                                                       
+19:02:53 <Waiter: 1> [Order: 0] Done soda                                                                                                             
+19:02:53 <Waiter: 1> [Order: 0] Done order!                                                                                                           
+19:02:53 <Waiter: 1> [Order: 0] Dispatch burger                                                                                                       
+19:02:53 <Waiter: 1> [Order: 0] Dispatch soda                                                                                                         
+19:02:53 <Waiter: 1> [Order: 0] --------Done dispatch!--------                                                                                        
+                                         
+19:02:53 <Waiter: 1> [Order: 2] ********Request order!********
+19:02:53 <Waiter: 1> [Order: 2] Request beer. Wait 1.2 seg...
+19:02:54 <Waiter: 1> [Order: 2] Done beer
+19:02:54 <Waiter: 1> [Order: 2] Request beer. Wait 1.2 seg...
+19:02:55 <Waiter: 1> [Order: 2] Done beer
+19:02:55 <Waiter: 1> [Order: 2] Request beer. Wait 1.2 seg...
+19:02:57 <Waiter: 1> [Order: 2] Done beer
+19:02:57 <Waiter: 1> [Order: 2] Done order!
+19:02:57 <Waiter: 1> [Order: 2] Dispatch beer
+19:02:57 <Waiter: 1> [Order: 2] Dispatch beer
+19:02:57 <Waiter: 1> [Order: 2] Dispatch beer
+19:02:57 <Waiter: 1> [Order: 2] --------Done dispatch!--------
+
+19:02:57 <Waiter: 1> [Order: 3] ********Request order!********
+19:02:57 <Waiter: 1> [Order: 3] Request burger. Wait 7.5 seg...
+19:03:00 <Waiter: 2> [Order: 1] Done burger
+19:03:00 <Waiter: 2> [Order: 1] Request beer. Wait 1.2 seg...
+19:03:01 <Waiter: 2> [Order: 1] Done beer
+19:03:01 <Waiter: 2> [Order: 1] Request frites. Wait 4 seg...
+19:03:04 <Waiter: 1> [Order: 3] Done burger
+19:03:04 <Waiter: 1> [Order: 3] Request frites. Wait 4 seg...
+19:03:05 <Waiter: 2> [Order: 1] Done frites
+19:03:05 <Waiter: 2> [Order: 1] Done order!
+19:03:05 <Waiter: 2> [Order: 1] Dispatch burger
+19:03:05 <Waiter: 2> [Order: 1] Dispatch burger
+19:03:05 <Waiter: 2> [Order: 1] Dispatch beer
+19:03:05 <Waiter: 2> [Order: 1] Dispatch frites
+19:03:05 <Waiter: 2> [Order: 1] --------Done dispatch!--------
+
+19:03:08 <Waiter: 1> [Order: 3] Done frites
+19:03:08 <Waiter: 1> [Order: 3] Done order!
+19:03:08 <Waiter: 1> [Order: 3] Dispatch burger
+19:03:08 <Waiter: 1> [Order: 3] Dispatch frites
+19:03:08 <Waiter: 1> [Order: 3] --------Done dispatch!--------
+
+python examples/asyncronia_en_python/threads.py  0,08s user 0,02s system 0% cpu 23,725 total
