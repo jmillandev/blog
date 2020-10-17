@@ -1,6 +1,6 @@
 # Override these settings with your own
-languageCode = "ee-es"
-title = "Mi Blog"
+languageCode = "es-es"
+title = "Jesús Millán"
 baseURL = "https:/jgmc3012.github.io"
 theme = "hugo-theme-codex" 
 copyright = "© {year}"
@@ -50,13 +50,18 @@ googleAnalytics = ""
 # Controls the navigation
 [[menu.main]]
   identifier = "about"
-  name = "about"
+  name = "About"
   title = "About"
   url = "/"
 
 [[menu.main]]
   identifier = "blog"
-  name = "blog"
+  name = "Blog"
   title = "Blog"
   url = "/blog"
 
+[[menu.main]]
+  identifier = "apuntes"
+  name = "Apuntes"
+  title = "Apuntes"
+  url = "/apuntes"

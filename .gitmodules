@@ -4,3 +4,6 @@
 [submodule "public"]
 	path = public
 	url = https://github.com/jgmc3012/jgmc3012.github.io.git
+[submodule "content/apuntes"]
+	path = content/apuntes
+	url = https://github.com/jgmc3012/apuntes

@@ -1,0 +1,52 @@
+time python examples/asyncronia_en_python/sync.py                                                                                                   
+18:24:55 Received orders                                                                                                                              
+18:24:55 <Waiter: 1> [Order: 0] ********Request order!********                                                                                        
+18:24:55 <Waiter: 1> [Order: 0] Request burger. Wait 7.5 seg...                                                                                       
+18:25:02 <Waiter: 1> [Order: 0] Done burger                                                                                                           
+18:25:02 <Waiter: 1> [Order: 0] Request soda. Wait 1 seg...                                                                                           
+18:25:03 <Waiter: 1> [Order: 0] Done soda                                                                                                             
+18:25:03 <Waiter: 1> [Order: 0] Done order!                                                                                                           
+18:25:03 <Waiter: 1> [Order: 0] Dispatch burger                                                                                                       
+18:25:03 <Waiter: 1> [Order: 0] Dispatch soda                                                                                                         
+18:25:03 <Waiter: 1> [Order: 0] --------Done dispatch!--------                                                                                        
+                                                                                                                                                      
+18:25:03 <Waiter: 1> [Order: 1] ********Request order!********                                                                                        
+18:25:03 <Waiter: 1> [Order: 1] Request burger. Wait 7.5 seg...                                                                                       
+18:25:11 <Waiter: 1> [Order: 1] Done burger                                                                                                           
+18:25:11 <Waiter: 1> [Order: 1] Request burger. Wait 7.5 seg...                                                                                       
+18:25:18 <Waiter: 1> [Order: 1] Done burger                                                                                                           
+18:25:18 <Waiter: 1> [Order: 1] Request beer. Wait 1.2 seg...
+18:25:19 <Waiter: 1> [Order: 1] Done beer
+18:25:19 <Waiter: 1> [Order: 1] Request frites. Wait 4 seg...
+18:25:23 <Waiter: 1> [Order: 1] Done frites
+18:25:23 <Waiter: 1> [Order: 1] Done order!
+18:25:23 <Waiter: 1> [Order: 1] Dispatch burger
+18:25:23 <Waiter: 1> [Order: 1] Dispatch burger
+18:25:23 <Waiter: 1> [Order: 1] Dispatch beer
+18:25:23 <Waiter: 1> [Order: 1] Dispatch frites
+18:25:23 <Waiter: 1> [Order: 1] --------Done dispatch!--------
+
+18:25:23 <Waiter: 1> [Order: 2] ********Request order!********
+18:25:23 <Waiter: 1> [Order: 2] Request beer. Wait 1.2 seg...
+18:25:24 <Waiter: 1> [Order: 2] Done beer
+18:25:24 <Waiter: 1> [Order: 2] Request beer. Wait 1.2 seg...
+18:25:26 <Waiter: 1> [Order: 2] Done beer
+18:25:26 <Waiter: 1> [Order: 2] Request beer. Wait 1.2 seg...
+18:25:27 <Waiter: 1> [Order: 2] Done beer
+18:25:27 <Waiter: 1> [Order: 2] Done order!
+18:25:27 <Waiter: 1> [Order: 2] Dispatch beer
+18:25:27 <Waiter: 1> [Order: 2] Dispatch beer
+18:25:27 <Waiter: 1> [Order: 2] Dispatch beer
+18:25:27 <Waiter: 1> [Order: 2] --------Done dispatch!--------
+
+18:25:27 <Waiter: 1> [Order: 3] ********Request order!********
+18:25:27 <Waiter: 1> [Order: 3] Request burger. Wait 7.5 seg...
+18:25:34 <Waiter: 1> [Order: 3] Done burger
+18:25:34 <Waiter: 1> [Order: 3] Request frites. Wait 4 seg...
+18:25:38 <Waiter: 1> [Order: 3] Done frites
+18:25:38 <Waiter: 1> [Order: 3] Done order!
+18:25:38 <Waiter: 1> [Order: 3] Dispatch burger
+18:25:38 <Waiter: 1> [Order: 3] Dispatch frites
+18:25:38 <Waiter: 1> [Order: 3] --------Done dispatch!--------
+
+python examples/asyncronia_en_python/sync.py  0,07s user 0,04s system 0% cpu 43,943 total
