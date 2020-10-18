@@ -1,20 +1,20 @@
 ---
-title: "Si Python fuera un restaurante"
-date: 2020-08-14T17:26:55-04:00
+title: "Una introducción a la asincronia en Python"
+date: 2020-10-18
 slug: "asyncronia-en-python"
 description: ""
 keywords: []
-draft: true
+draft: false
 tags: []
 math: false
 toc: false
 ---
-# Asincronia en python
-¿Te imaginas que el camarero de un restaurante pudiera tomar solo una orden a la vez? Es decir, que si alguien le pidiera unas papas fritas el no pudiera atender a mas nadie hasta que entregue esas papas fritas.
+# Python en el cuerpo de un/a mesoner@
+¿Te imaginas que el/la camarer@ de un restaurante pudiera tomar solo una orden a la vez? Es decir, que si alguien le pidiera unas papas fritas no pudiera atender a más nadie hasta que entregue esas papas fritas.
 
 No se tu, pero a mi me parece que seria algo lento, creo que lo despedirian el primer día😓.
 
-Bueno algo asi pasaria con python... al menos la mayoria de las veces. Ven dejame explicarte mejor.
+Bueno algo asi pasaria con python... al menos la mayoria de las veces. Ven, dejame explicarte mejor.
 
 # Python es sincrono por default
 
@@ -22,7 +22,7 @@ Bueno algo asi pasaria con python... al menos la mayoria de las veces. Ven dejam
 Bueno basicamente que puede hacer una sola cosa a la vez y hasta que eso no este listo no puede hacer mas nada🤦.
 
 ## ¿Y cual es el problema en ser monotasking?
-Bueno si nuestro codigo esta haciendo un trabajo donde tenemos nuestra CPU a tope, realmente no hay problema con esto.
+Bueno, si nuestro codigo esta haciendo un trabajo donde tenemos nuestra CPU a tope, realmente no hay problema con esto.
 
 Pero... ¿que pasa cuando nuestro codigo esta haciendo uso de mucha entrada y salida (I/O)? 
 
@@ -34,86 +34,87 @@ Porque la mayoria del tiempo nuestro CPU esta muerto de risa esperando que le ma
 
 ## Latencias
 
-Antes de entrar a ver las posibles soluciones para este problema, veamos la siguiente tabla de un repo de [github](https://gist.github.com/hellerbarde/2843375) para tener un mejor contexto, sobre el tiempo aprox que tardamos en buscar/enviar una informacion a los diferentes recursos de un sistema informatico.
+Antes de entrar a ver las posibles soluciones para este problema, veamos la siguiente tabla de un repo de [github](https://gist.github.com/hellerbarde/2843375) para tener un mejor contexto, sobre el tiempo aproximado que tardamos en buscar/enviar una informacion a los diferentes recursos de un sistema informatico.
 
 |Recurso | Tiempo |
 | --- | --- |
-|L1 cache reference | 0.5 ns |
-|Branch mispredict | 5 ns |
-|L2 cache reference | 7 ns |
-|Mutex lock/unlock | 25 ns |
-|Main memory reference | 100 ns |
-|Compress 1K bytes with Zippy | 3,000 ns  =   3 µs |
-|Send 2K bytes over 1 Gbps network | 20,000 ns  =  20 µs |
-|SSD random read | 150,000 ns  = 150 µs |
-|Read 1 MB sequentially from memory | 250,000 ns  = 250 µs |
-|Round trip within same datacenter | 500,000 ns  = 0.5 ms |
-|Read 1 MB sequentially from SSD* | 1,000,000 ns  =   1 ms |
-|Disk seek | 10,000,000 ns  =  10 ms |
-|Read 1 MB sequentially from disk | 20,000,000 ns  =  20 ms |
-|Send packet CA->Netherlands->CA | 150,000,000 ns  = 150 ms |
+|Referencia de la caché L1 | 0.5 ns |
+|Predicción errónea de rama | 5 ns |
+|Referencia de la caché L2 | 7 ns |
+|Bloqueo/Desbloqueo del [Mutex](https://en.wikipedia.org/wiki/Mutual_exclusion) | 25 ns |
+|Referencia a la memoria principal | 100 ns |
+|Comprimir 1K bytes con [Zippy](https://en.wikipedia.org/wiki/Snappy_(compression)) | 3,000 ns  =   3 µs |
+|Enviar 2K bytes en una red de 1 Gbps | 20,000 ns  =  20 µs |
+|Lectura aleatoria de un SSD | 150,000 ns  = 150 µs |
+|Leer 1 MB secuencialmente de la memoria | 250,000 ns  = 250 µs |
+|Viaje de ida y vuelta dentro del mismo centro de datos | 500,000 ns  = 0.5 ms |
+|Leer 1 MB secuencialmente desde un SSD | 1,000,000 ns  =   1 ms |
+|Busqueda de disco | 10,000,000 ns  =  10 ms |
+|Leer 1MB secuencialmente desde un disco | 20,000,000 ns  =  20 ms |
+|Enviar paquete CA-> Holanda-> CA | 150,000,000 ns  = 150 ms |
 | --- | --- |
 
 Puedes pensar. ¿Aja, y que con todo esto?. Bueno a priori no se ve muy importante si pensamos que son milesimas, cetesimas o inclusio nano segundos.
-Aclaremos un poco mas el asunto, llevemos esto a unidades mas grandes(X1.000.000.000) y faciles de leer para nosotros(los humanos), ahora la tabla se veria así:
+Aclaremos un poco mas el asunto, llevemos esto a unidades mas grandes(X1.000.000.000) y faciles de leer para nosotros(los humanos), ahora podemos ver los datos así:
 
 ### Menos de un Minuto:
 
 | Proceso | tiempo | ¿que puede suceder? |
 | --- | --- | --- |
-| L1 cache reference    | 0.5 s |  Un latido del corazon (0.5 s) |
-| Branch mispredict     | 5 s   |  Bostezo |
-| L2 cache reference    | 7 s   |  Bostezo  Largo |
-| Mutex lock/unlock     | 25 s  |  Hacer un café |
-| Main memory reference | 100 s   | Cepillarse los dientes |
+| Referencia de la caché L1    | 0.5 s |  Un latido del corazon (0.5 s) |
+| Predicción errónea de rama     | 5 s   |  Bostezo |
+| Referencia de la caché L2    | 7 s   |  Bostezo  Largo |
+| Bloqueo/Desbloqueo del [Mutex](https://en.wikipedia.org/wiki/Mutual_exclusion)     | 25 s  |  Hacer un café |
+| Referencia a la memoria principal | 100 s   | Cepillarse los dientes |
 
 ### Minutos o Horas:
 | Proceso | tiempo | ¿que puede suceder? |
 | --- | --- | --- |
-| Compress 1K bytes with Zippy  | 50 min  | Un episodio de [Mr Robot](https://en.wikipedia.org/wiki/Mr._Robot) |
-| Send 2K bytes over 1 Gbps network  | 5.5 hr  | Un curso corto de [Platzi](https://platzi.com/)(algo de practica incluida) |
+| Comprimir 1K bytes con [Zippy](https://en.wikipedia.org/wiki/Snappy_(compression))  | 50 min  | Un episodio de [Mr Robot](https://en.wikipedia.org/wiki/Mr._Robot) |
+| Enviar 2K bytes en una red de 1 Gbps  | 5.5 hr  | Un curso corto de [Platzi](https://platzi.com/)(algo de practica incluida) |
 
 ### Dias:
 | Proceso | tiempo | ¿que puede suceder? |
 | --- | --- | --- |
-| SSD random read                    |  1.7 days | Un fin de semana |
-| Read 1 MB sequentially from memory |  2.9 days | Un fin de semana largo |
-| Round trip within same datacenter  |  5.8 days | Una vacaciones promedio |
-| Read 1 MB sequentially from SSD    | 11.6 days | Gestación promedio de una [zarigüeyas](https://ast.wikipedia.org/wiki/Didelphimorphia) |
+| Lectura aleatoria de un SSD                    |  1.7 days | Un fin de semana |
+| Leer 1 MB secuencialmente de la memoria |  2.9 days | Un fin de semana largo |
+| Viaje de ida y vuelta dentro del mismo centro de datos  |  5.8 days | Una vacaciones promedio |
+| Leer 1 MB secuencialmente desde un SSD    | 11.6 days | Gestación promedio de una [zarigüeyas](https://ast.wikipedia.org/wiki/Didelphimorphia) |
 
 ### Meses:
 | Proceso | tiempo | ¿que puede suceder? |
 | --- | --- | --- |
-| Disk seek                        | 16.5 weeks | Un semetre en la universidad |
-| Read 1 MB sequentially from disk | 7.8 months | Un bebe(prematuro) pudo haber nacido |
+| Busqueda de disco                        | 16.5 weeks | Un semetre en la universidad |
+| Leer 1MB secuencialmente desde un disco | 7.8 months | Un bebe(prematuro) pudo haber nacido |
 
 
 ### Años:
 | Proceso | tiempo | ¿que puede suceder? |
 | --- | --- | --- |
-| The above 2 together             | 1 year | Segun [freddier](https://twitter.com/freddier) el tiempo suficiente para cambiar de carrera usando [Platzi](https://platzi.com/) |
-| Send packet CA-> Netherlands-> CA | 4.8 years | Completar el bachillerato/colegio/high school |
+| Enviar paquete CA-> Holanda -> CA | 4.8 years | Completar el bachillerato/colegio/high school |
 
 
 ## Conclusiones
-Usando estas medidas exorbitante podemos tener una idea de que miestras nosotros enviamos 200Kb por una red de 1 Gbs pasarian **semanas**, para que realizar un proceso "*costoso*" para nuestra CPU como el de comprimir una imagen, se haria en solo **horas**. Y en todas esas semanas nuestra CPU no podia hacer nada, solo esperar.
+Usando estas medidas exorbitantes podemos tener una idea de que miestras nosotros enviamos 200Kb por una red de 1 Gbps pasarian **semanas**. Y realizar un proceso "*costoso*" para nuestra CPU como el de comprimir una imagen, se haria en solo **horas**. Y en todas esas semanas nuestra CPU no podria hacer nada, solo esperar.
 
 
 # Algunos conceptos basicos(explicados de una forma sencilla)
 
 ## Instrucción o sentencia "bloqueante"
-Es una instrucción que tiene el "control" del programa y no lo sede hasta culminar su tarea.
+Es una instrucción que tiene el "**control**" del programa y no lo sede hasta culminar su tarea.
 Ejemplo:
-    Un mesonero necesita servir/entregar una comida pero los platos no estan a su alcance. Asi que le pide a un cocinero que se los entregue.
-    
-    Esos segundo que el cocinero espera que le entreguen los platos, es una acción bloqueante. Debido a que el no pudo hacer mas nada en este tiempo, tan solo esperar.
+
+Un mesonero necesita servir/entregar una comida pero los platos no estan a su alcance. Asi que le pide a un cocinero que se los entregue.
+
+Esos segundo que el cocinero espera que le entreguen los platos, es una acción bloqueante. Debido a que el no pudo hacer mas nada en este tiempo, tan solo esperar.
 
 ## Instrucción o sentencia "no bloqueante"
-Es una instrucción que "suelta el control" del programa mientras ella no lo necesite. Podriamos decir que es una tarea que se esta ejecutando en background o en 2do plano.
+Es una instrucción que "**suelta el control**" del programa mientras ella no lo necesite. Podriamos decir que es una tarea que se esta ejecutando en background o en 2do plano.
 Ejemplo:
-    Un mesonero recibe una orden de un cliente y la entrega al chef para que la prepare. El chef le indica que puede ir a atender a otros clientes mientras el prepara esa orden.
 
-    Esto es una tarea no bloqueante, debido a que el camarero no se queda allí esperando sin hacer nada. Digamos que "aprovecho" el tiempo y adenlanto otras tareas pendientes.
+Un mesonero recibe una orden de un cliente y la entrega al chef para que la prepare. El chef le indica que puede ir a atender a otros clientes mientras el prepara esa orden.
+
+Esto es una tarea no bloqueante, debido a que el camarero no se queda allí esperando sin hacer nada. Digamos que "aprovecho" el tiempo y adenlanto otras tareas pendientes.
 
 ## Concurrencia
 La concurrencia segun lo que la [wikipedia](https://es.wikipedia.org/wiki/Concurrencia_(inform%C3%A1tica)) nos habla es:
@@ -123,7 +124,7 @@ La concurrencia segun lo que la [wikipedia](https://es.wikipedia.org/wiki/Concur
 Pensemos en la concurrencia en esa capacidad hacer varias cosas a la vez, pero de una forma intercalada. veamos un ejemplo para entenderlo mejor:
 
 
-    Vayamos al pasado, a los 2000 donde solo existian computadoras con un solo nucleo en su CPU. Un nucleo solo puede realizar una sentencia a la vez, sin embargo nuestras PCs mononúcleo eran capaces de reproducir musica, mientras se abria el navegador de Explorer, mientras dibujabamos algo en  Paint.
+Vayamos al pasado, a los 2000 donde solo existian computadoras con un solo nucleo en su CPU. Un nucleo solo puede realizar una sentencia a la vez, sin embargo nuestras PCs mononúcleo eran capaces de reproducir musica, mientras se abria el navegador de Explorer, mientras dibujabamos algo en  Paint.
 
 ¿Como era esto posible? Bueno nuestro sitema operativo se encarga de eso, de alternar rapidamente entre cada tarea de tal forma que parezca que todo sucede al mismo tiempo.
 
@@ -131,15 +132,17 @@ Pensemos en la concurrencia en esa capacidad hacer varias cosas a la vez, pero d
 Este es mas sencillo, se refiere a ejecutar dos tareas en paralelo. Ejemplo: Tu puede caminar al mismo tiempo que hablas. Son dos tareas que se pueden ejecutan en un mismo instante de tiempo. En nuestras PCs actuales esta forma de trabajar existe gracias a que nuestros CPUs(en su mayoria) ya son todos multinucleos.
 
 ## Proceso
-Son la instancia de un programa, asi como en OOP los objectos son instancias de las Clases. Para que varios procesos se ejecuten en paralelo es necesario que cada uno de ellos se ejecute en un nucleo de la CPU.
+Son la instancia de un programa, asi como en programación orientada a objetos(OOP) los objectos son instancias de las Clases. 
+
+**NOTA**: Para que varios procesos se ejecuten en paralelo es necesario que cada uno de ellos se ejecute en un nucleo de la CPU.
 
 ## Threads
 En español llamados subprocesos o hilos, son la unidad mas pequeña a la cual un procesador puede asignar tiempo. Cada proceso contiene al menos un hilo.
 
 ## Concurrencia colaborativa
-Es muy similar a la concurrencia normal, pero en este caso son las mismas tareas encargadas de seder el "control". Visto de otro punto de vista, la concurrencia colaborativa es posible gracias a la ejecución de instrucciones no bloqueantes. Un ejemplo claro de esto lo vimos cuando nuestro cocinero le entrego un orden al chef y este le dijo que podia ir haciendo otras tareas.
+Es muy similar a la concurrencia normal, pero en este caso son las mismas tareas encargadas de seder el "**control**". Visto de otro punto de vista, la concurrencia colaborativa es posible gracias a la ejecución de instrucciones no bloqueantes. Un ejemplo claro de esto lo vimos cuando nuestro cocinero le entrego un orden al chef y este le dijo que podia ir haciendo otras tareas.
 
-La concurrencia colaborativa la vemos comunmente en aplicaciones o lenguajes monohilos, tienes sus ventajas tiene una gran ventaja al ser mas ligeras. Pero tiene un problema, nos oblican a pensar de una manera distinta y libre de instrucciones bloqueantes. Debido a que es el mismo programa el encargado de ir liberando el "control", si se ejecuta una sentencia bloqueante no existe nada que hacer, solo esperar a que esas instrucción termine.
+La concurrencia colaborativa la vemos comunmente en aplicaciones o lenguajes monohilos, tienen una gran ventaja al ser mas ligeras. Pero tiene un problema, nos oblican a pensar de una manera distinta y libre de instrucciones bloqueantes. Debido a que es el mismo programa el encargado de ir "**liberando el control**", si se ejecuta una sentencia bloqueante no hay nada que hacer, solo esperar a que esas instrucción termine.
 
 ## Asincronia
 creo que la mejor forma de explicarlo es con su etimología:
@@ -148,15 +151,15 @@ creo que la mejor forma de explicarlo es con su etimología:
 
 # Una cocina en Python
 
-Para explicar un poco la asincronia usaremos el ejemplo de un restaurante y como se comportan su mesoneros. En el habran dos objetos:
+Para explicar un poco la asincronia usaremos el ejemplo de un restaurante y como se comportan sus mesoneros. En el habran dos objetos:
 
-*NOTA:*
-    Veras el codigo un poco grande, pero son [*logs*](https://docs.python.org/3.8/library/logging.html) mas que todo , no te asustes.
+**NOTA:**
+Veras el codigo un poco grande, pero son [*logs*](https://docs.python.org/3.8/library/logging.html) mas que todo , no te asustes.
 
-    Los identificadores del codigo y los logs estan en ingles. Su documentación en español(aunque no es el estandar en la industria).
+Los identificadores del codigo y los logs estan en ingles. Su documentación en español(aunque no es el estandar en la industria).
 
-*NOTA2:*
-    No se aplican las mejores tecnicas de clean code.
+**NOTA2:**
+No se aplican las mejores tecnicas de clean code.
 
 ## 1. Waiter
 El mesonero sera el encargado de realizar las tareas "*costosas*" de **I/O**. Estas haran referencia a las ordenes que el tiene que pedir a la cocina.
@@ -450,7 +453,7 @@ time python examples/asyncronia_en_python/threads.py
 python examples/asyncronia_en_python/threads.py  0,08s user 0,02s system 0% cpu 23,725 total
 ```
 
-Okey, mejoramos un 2x nuestro tiempo de respuesta. Ahora si cada mesonero esta "trabajando", pero aun asi estamos perdiendo mucho tiempo en la espera de cada producto. Esto lo podriamos solucionar creando un hilo cada vez que le pidamos un producto a la cocina. Pero esto es algo costoso, tal vez no es nuestro ejemplo, pero imaginos un [scraper](https://es.wikipedia.org/wiki/Web_scraping) de amazon para un ecommerce dedicado al [dropshipping](https://es.shopify.com/blog/12377277-guia-completa-de-dropshipping), levantar 1000 hilos, cada uno para hacer una request(y scrapear un sitio web) no es algo trivial.
+Okey, mejoramos un 2x nuestro tiempo de respuesta. Ahora si cada mesonero esta "trabajando", pero aun asi estamos perdiendo mucho tiempo en la espera de cada producto. Esto lo podriamos solucionar creando un hilo cada vez que le pidamos un producto a la cocina. Pero esto es algo costoso, tal vez no en nuestro ejemplo, pero imaginos un [scraper](https://es.wikipedia.org/wiki/Web_scraping) de amazon para un ecommerce dedicado al [dropshipping](https://es.shopify.com/blog/12377277-guia-completa-de-dropshipping), levantar 1000 hilos, cada uno para hacer una request(y scrapear un sitio web) no es algo trivial.
 
 Por otra parte el uso de Threads es algo delicado. Cuando usamos threads y estos comparten recursos(aunque nuestros camareros comparten el objecto `orders`, este no es un caso problematico) se puede ocasionar una "sección critica", veamos un ejemplo que tome prestado del curso de [Progración concurrende en Codigo facilito](https://codigofacilito.com/cursos/python-concurrente), que imparte [Eduardo](https://twitter.com/eduardo_gpg), el cual les recomiendo mucho:
 
@@ -487,7 +490,7 @@ if __name__ == '__main__':
 ```
 El codigo es sencillo, existe un `BALANCE`(inicializado en 0), supongamos que es de una cuenta bancaria, al cual le restaremos y sumaremos 1(uno) un millon de veces.
 
-Uno esperaria que el resultado sea 0 siempre, ¿cierto?. Bueno esto casi nunca pasa. Te invido a ejecutar el [script]() y verlo por ti mismo. Esto sucedo por algo llamado condición de carrera, donde los procesos compiten por obtener un recurso(en este caso `BALANCE`).
+Uno esperaria que el resultado sea 0 siempre, ¿cierto?. Bueno esto casi nunca pasa. Te invido a ejecutar el [script](https://code.sololearn.com/cHg1nXgonugV/#py) y verlo por ti mismo. Esto sucedio por algo llamado condición de carrera, donde los procesos compiten por obtener un recurso(en este caso `BALANCE`).
 
 La forma correcta de este codigo se veria así:
 ```python
@@ -529,7 +532,7 @@ if __name__ == '__main__':
 
     logging.info(f'El valor final del balance es: {BALANCE}')
 ```
-El `lock` nos servira como una especie de "seguro" donde nosotros sabremos que todo lo que este allí dentro solo estara accesible para un solo thread a la vez.
+El `lock` nos servira como una especie de "seguro" donde nosotros sabremos que todo lo que este allí dentro solo estara accesible para un solo thread a la vez. Prueba el codigo [acá](https://code.sololearn.com/cFZYU7ViCPps/#py)
 
 ## Concurrencia colaborativa
 
@@ -567,7 +570,7 @@ async def main(msg:str, seg:int):
     Esta es una corutina, la identificamos por la palabra reservada
     `async`.
     """
-    # Con `await` podemos ejecutar otra corutina y mientras le damos el control al Event Loop.
+    # Con `await` ejecutamos otra corutina y mientras, le damos el control al Event Loop.
     # En pocas palabras: "Esperamos y liberamos"
     await asyncio.sleep(seg)
     print(f'Espere {seg} seg para decirte:', msg)
@@ -580,44 +583,244 @@ if __name__ == "__main__":
     loop.run_until_complete(main('Hola mundo con Asyncio', 2))
 
     """
-    Desde python 3.7 estas dos linea pueden ser resumidas con
+    Desde python 3.7 esas dos linea pueden ser resumidas con
     """
-    asyncio.run(main('Hola mundo con Asyncio', 1))
+    asyncio.run(main('Hola mundo con Asyncio en Python 3.7', 1))
 ```
 
 Salida:
 ```shell
 >>> Espere 2 seg para decirte: Hola mundo con Asyncio
->>> Espere 1 seg para decirte: Hola mundo con Asyncio
+>>> Espere 1 seg para decirte: Hola mundo con Asyncio en Python3.7
 
 ```
 
+## ¿Que tenemos de nuevo?
+- Una sentencia **await**: Se utiliza para esperar la respuesta de otra corrutina, y significa *asynchronous wait*(espera asincrónica), esa sentencia es la que le retorna el control al event loop. Y es la clave de todo.
 
-ahora un poco mas complicado 
-## Esperando otra corutina
+## Corrutinas en "paralelo"
 
-## Corrutinas
+Supongamos que queremos ejecutar varias request a una API de forma simultanea. Veamos un codigo de como lo podriamos hacer:
 
-## Que hacer cuando se algo va a bloquear
+```python
+#! /usr/bin/python3
+import asyncio
+import logging
+import aiohttp # Libreria externa de PiPy: https://docs.aiohttp.org/en/v2.3.4/
 
-## Ejecutando en paralelo
+logging.basicConfig(format='[ %(asctime)s ]  %(message)s', level=10)
 
-## Iterables asincronos
+API = 'https://swapi.dev/api/people/{id}/'
 
-## Errores en corrutinas
+async def get_person(session, id):
+    """Haces las request a la URL e imprimimos el resultado"""
+    url = API.format(id=id)
+    # Relizamos la request a las URL
+    async with session.get(url) as response:
+        logging.info(f'Request person number {id}')
+
+        # Obtenemos el resultado de la peticion como un dict de python
+        person = await response.json()
+
+        logging.info(f'Person number {id} = {person["name"]}')
+
+async def main():
+
+    # Inicializamos una session en el cliente WEB
+    async with aiohttp.ClientSession() as session:
+        # Creamos una lista con todas las corrutinas que queremos ejecutar
+        coros = [get_person(session, id) for id in range(1, 10)]
+
+        # Esperamos que todas las corrutinas terminen su ejecución
+        await asyncio.gather(*coros)
+
+if __name__ == '__main__':
+    asyncio.run(main())
+```
+Veamos el output:
+```bash
+time python examples/asyncronia_en_python/asinc2.py
+
+[ 2020-09-05 19:24:27,760 ]  Using selector: EpollSelector
+[ 2020-09-05 19:24:29,294 ]  Request person number 1
+[ 2020-09-05 19:24:29,294 ]  Person number 1 = Luke Skywalker
+[ 2020-09-05 19:24:29,347 ]  Request person number 2
+[ 2020-09-05 19:24:29,347 ]  Person number 2 = C-3PO
+[ 2020-09-05 19:24:29,349 ]  Request person number 7
+[ 2020-09-05 19:24:29,349 ]  Person number 7 = Beru Whitesun lars
+[ 2020-09-05 19:24:29,350 ]  Request person number 6
+[ 2020-09-05 19:24:29,350 ]  Person number 6 = Owen Lars
+[ 2020-09-05 19:24:29,353 ]  Request person number 8
+[ 2020-09-05 19:24:29,354 ]  Person number 8 = R5-D4
+[ 2020-09-05 19:24:29,358 ]  Request person number 5
+[ 2020-09-05 19:24:29,359 ]  Person number 5 = Leia Organa
+[ 2020-09-05 19:24:29,362 ]  Request person number 4
+[ 2020-09-05 19:24:29,363 ]  Person number 4 = Darth Vader
+[ 2020-09-05 19:24:29,364 ]  Request person number 3
+[ 2020-09-05 19:24:29,365 ]  Person number 3 = R2-D2
+[ 2020-09-05 19:24:29,366 ]  Request person number 9
+[ 2020-09-05 19:24:29,366 ]  Person number 9 = Biggs Darklighter
+
+python examples/asyncronia_en_python/asinc2.py  0,27s user 0,05s system 17% cpu 1,859 total
+```
+
+**Podemos ver algunas cosas interesantes**:
+1. Las 9 request a la API se realizaron en menos de 2 seg, Algo bastante dificil si lo hicieramos con las libreria [requests](https://requests.readthedocs.io/en/master/), la cual es una libreria bloqueante.
+2. A pesar de que creamos nuestras corrutinas de una manera secuencial, no podemos predecir el orden en el que se ejecutan(cual finalizara primero).
+3. La sentencia `asyncio.gather(*coros)`: recibe una lista de corrutinas y nos devuelve sus valores. Esta sentencia a su vez tambien es una corrutina por lo que tenemos que utilizar `await` para esperar su resultado final.
+
+## Restaurante asincrono
+Volvamos un momento a restaurante y hagamosle algunos cambios al mesonero para que no se quede esperando sin hacer nada hasta que le entregen el producto.
+
+```python
+class Waiter:
+    ...
+
+    async def request_orders(self):
+        """
+        Pedimos todas las ordenes casi en el mismo momento.
+        Sin importar si ya la orden anterior esta lista.
+        """
+        coros = list()
+        while not self.orders.empty():
+            order = self.orders.get()
+            coros.append(self.request_order(order))
+        await asyncio.gather(*coros)
+
+    async def request_order(self, order):
+        """
+        Pedir los productos a la cocina y dispachar la orden.
+        """
+        logging.info('<Waiter: {}> [Order: {}] {:*^30}'.format(self.id, order['id'], 'Request order!'))
+        coros = [
+            self.request_product(product, order['id']) for product in order['products']
+        ]
+        await asyncio.gather(*coros)
+        self.dispatch_order(order)
+
+    async def request_product(self,product, order_id):
+        """
+        Pedir un producto a la cocina.
+        """
+        time_sleep = self.PREPARATION_TIME[product]
+        logging.info(f'<Waiter: {self.id}> [Order: {order_id}] Request {product}. Wait {time_sleep} seg...')
+        await asyncio.sleep(time_sleep)
+        logging.info(f'<Waiter: {self.id}> [Order: {order_id}] Done {product}')
+
+    ...
+```
+Hicismos varios cambios, pero el mas importante es `await asyncio.sleep(time_sleep)` que esta dentro de `request_product`.
+Esta setencia es la unica sentencia bloqueante que teniamos dentro de nuestro proceso. Ten en cuanta este cambio, hablaremos de el al final.
+
+Los demas cambios son los de convertir todos los metodos involucrados en corutinas. Recordemos que solo dentro de las corutinas se pueden ejecutar sentencias no bloqueantes.
+
+
+Pero falta algo, como ahora nuestro camarero esta trabajando de forma asincrona, debemos darle un punto de partida a nuestro event loop y eso lo haremos desde nuestra cajera.
+```python
+class Cashier:
+    orders = Queue()
+
+    def __init__(self):
+        self.waiter = Waiter(self.orders, 1)
+    def receive_orders(self, orders:list):
+        for i, value in enumerate(orders):
+            order = {'id': i, 'products': value}
+            self.orders.put(order)
+        logging.info('Received orders')
+        asyncio.run(self.waiter.request_orders())
+```
+
+Como podran notar, ahora solo tenemos un camarero(al otro lo despedimos🤷‍♂️). Veamos como trabaja
+
+```bash
+time python examples/asyncronia_en_python/asinc.py
+[Thr:MainThread]  Received orders
+[Thr:MainThread]  Using selector: EpollSelector
+[Thr:MainThread]  <Waiter: 1> [Order: 0] ********Request order!********
+[Thr:MainThread]  <Waiter: 1> [Order: 1] ********Request order!********
+[Thr:MainThread]  <Waiter: 1> [Order: 2] ********Request order!********
+[Thr:MainThread]  <Waiter: 1> [Order: 3] ********Request order!********
+[Thr:MainThread]  <Waiter: 1> [Order: 0] Request burger. Wait 7.5 seg...
+[Thr:MainThread]  <Waiter: 1> [Order: 0] Request soda. Wait 1 seg...
+[Thr:MainThread]  <Waiter: 1> [Order: 1] Request burger. Wait 7.5 seg...
+[Thr:MainThread]  <Waiter: 1> [Order: 1] Request burger. Wait 7.5 seg...
+[Thr:MainThread]  <Waiter: 1> [Order: 1] Request beer. Wait 1.2 seg...
+[Thr:MainThread]  <Waiter: 1> [Order: 1] Request frites. Wait 4 seg...
+[Thr:MainThread]  <Waiter: 1> [Order: 2] Request beer. Wait 1.2 seg...
+[Thr:MainThread]  <Waiter: 1> [Order: 2] Request beer. Wait 1.2 seg...
+[Thr:MainThread]  <Waiter: 1> [Order: 2] Request beer. Wait 1.2 seg...
+[Thr:MainThread]  <Waiter: 1> [Order: 3] Request burger. Wait 7.5 seg...
+[Thr:MainThread]  <Waiter: 1> [Order: 3] Request frites. Wait 4 seg...
+[Thr:MainThread]  <Waiter: 1> [Order: 0] Done soda
+[Thr:MainThread]  <Waiter: 1> [Order: 1] Done beer
+[Thr:MainThread]  <Waiter: 1> [Order: 2] Done beer
+[Thr:MainThread]  <Waiter: 1> [Order: 2] Done beer
+[Thr:MainThread]  <Waiter: 1> [Order: 2] Done beer
+[Thr:MainThread]  <Waiter: 1> [Order: 2] Done order!
+[Thr:MainThread]  <Waiter: 1> [Order: 2] Dispatch beer
+[Thr:MainThread]  <Waiter: 1> [Order: 2] Dispatch beer
+[Thr:MainThread]  <Waiter: 1> [Order: 2] Dispatch beer
+[Thr:MainThread]  <Waiter: 1> [Order: 2] --------Done dispatch!--------
+
+[Thr:MainThread]  <Waiter: 1> [Order: 1] Done frites
+[Thr:MainThread]  <Waiter: 1> [Order: 3] Done frites
+[Thr:MainThread]  <Waiter: 1> [Order: 0] Done burger
+[Thr:MainThread]  <Waiter: 1> [Order: 1] Done burger
+[Thr:MainThread]  <Waiter: 1> [Order: 1] Done burger
+[Thr:MainThread]  <Waiter: 1> [Order: 3] Done burger
+[Thr:MainThread]  <Waiter: 1> [Order: 0] Done order!
+[Thr:MainThread]  <Waiter: 1> [Order: 0] Dispatch burger
+[Thr:MainThread]  <Waiter: 1> [Order: 0] Dispatch soda
+[Thr:MainThread]  <Waiter: 1> [Order: 0] --------Done dispatch!--------
+
+[Thr:MainThread]  <Waiter: 1> [Order: 1] Done order!
+[Thr:MainThread]  <Waiter: 1> [Order: 1] Dispatch burger
+[Thr:MainThread]  <Waiter: 1> [Order: 1] Dispatch burger
+[Thr:MainThread]  <Waiter: 1> [Order: 1] Dispatch beer
+[Thr:MainThread]  <Waiter: 1> [Order: 1] Dispatch frites
+[Thr:MainThread]  <Waiter: 1> [Order: 1] --------Done dispatch!--------
+
+[Thr:MainThread]  <Waiter: 1> [Order: 3] Done order!
+[Thr:MainThread]  <Waiter: 1> [Order: 3] Dispatch burger
+[Thr:MainThread]  <Waiter: 1> [Order: 3] Dispatch frites
+[Thr:MainThread]  <Waiter: 1> [Order: 3] --------Done dispatch!--------
+
+python examples/asyncronia_en_python/asinc.py  0,13s user 0,02s system 2% cpu 7,662 total
+```
+
+Ahora si, esto es lo que queriamos. Se redujo casi al maximo nuestro tiempo de espera, estamos tardando en despachar todas la  ordenes casi 7.5 seg, que es el tiempo de preparacion mas largo que tenemos(el de la hamburguesa).
+
+
+# Conclusiones
+
+¿Que genial, cierto?, todo lo que pudismos reducir nuestro tiempo de espera. ¿Piensa esto a gran escala en tus proyectos?. ¿Cuanto tiempo tardas buscando algo en la red? ¿Cuanto tiempo tarda tu base de datos en procesar una query? las ventajas trabajar con asincronia pueden ser muchas. Lamentablemente las desventajas tambien son varias. Vamos a listar algunas.
 
 ## Ventajas
-El asincronismo nos permite trabajar con algunas de las ventajas del uso de threads sin problemas de "sección critica" y muchimo mas barato en terminos de recursos.
+El asincronismo nos permite trabajar con algunas de las ventajas que tendriamos al usar multi hilos sin problemas de "sección critica" y muchimo mas barato en terminos de recursos.
 
-- Escala muy facil: Muchos miles de operaciones I/O concurrentes.
-- Es facil compartir recursos: No tenemos que preocuparnos por "secciones criticas" dado que todo corre bajo un mismo thread y un mismo proceso.
+- Escala muy facil: Muchos miles de operaciones I/O concurrentes
+- Es facil compartir recursos: No tenemos que preocuparnos por "secciones criticas" dado que todo corre bajo un mismo thread y un mismo proceso
+- Mucho mas barato que usar hilos
 
 ## Desventajas
-Un factor inportante del que no hablamos hasta ahora es.¿Quien decide que tarea o "pedazo de codigo" debe ejecutarse?. Bueno cuando usamos hilos ese es trabajo del OS por lo que realmente no tenemos que preocuparnos.
+- Es mas "dificil" programar, hay que estar pendiente de que bloquea y que no.
+- No todas las librerias son asincronas, por lo tanto, no podemos usar cualquier libreria en nuestros proyectos.
 
-Pero en los lenguajes asincronos eso trabajo del "event loop"(puede que tengo otros nombres tambien). Esto no supone un problema de entrada, pero en python si, pues veras:
+Quiero aclarar este ultimo punto de porque no podemos usar cualquier libreria. ¿Recuerdas esta sentencia del ultimo ejemplo `await asyncio.sleep(time_sleep)`?
 
-El event loop es el "administrador central" el sabe que pedazo de codigo debe ejecutarse y en que prioridad. Pero la alternancia de como se ejecutan estas depende en cierta medida del mismo codigo.
+Asyncio es el modulo principal de asincronia en python. la funcion `sleep` de asyncio es una funcion asincrona(es no bloqueante), en su contraparte la funcion `time.sleep` del modulo `time`, es una funcion bloqueante. Todo los cambio que hicimos en nuestro ultimo ejemplo no servirian de nada si hubieramos seguido trabajando con el modulo `time`.
+
+Dicho esto hay que tener mucho cuidado. Python esta dividido en dos ecosistemas: el asincrono y el sincrono. Esto causa que al iniciar un proyecto no veamos en la dificil tarea de elegir que ecosistema utilizaremos.
+
+El asincrono por un lado cuenta con las maravillas que ya vimos de la concurrencia colaborativa, pero no cuenta con tanta librerias de terceros como las que existen en el ecosistema sincrono.
+
+Aca te dejo un [repo en github](https://github.com/timofurrer/awesome-asyncio) donde encontraras algunas librerias asincronas.
+
+# Despedida
+
+Espero hayas quedado con ganas de crear futuros proyectos utilizando asyncio en python y con el hambre de investigar mas sobre esta tecnologia. El ecosistema de asyncio ha venido creciendo en los ultimos años. 
 
 
-# Bibliotecas asincronas
+Me despido, ojala hayas disfrutado esta lectura tanto como yo crearla. Si quieres dejarme algun feedback lo puedes hacer mencionandome Twitter como [jgmc3012](https://twitter.com/jgmc3012).
+
+Hasta la proximas Dev🤘.
