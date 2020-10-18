@@ -58,10 +58,10 @@ googleAnalytics = ""
   identifier = "blog"
   name = "Blog"
   title = "Blog"
-  url = "/blog"
+  url = "/blog/"
 
 [[menu.main]]
   identifier = "apuntes"
   name = "Apuntes"
   title = "Apuntes"
-  url = "/apuntes"
+  url = "/apuntes/"
