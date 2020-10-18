@@ -9,6 +9,9 @@ tags: []
 math: false
 toc: false
 ---
+
+##### NOTA: Puedes ver este mismo post desde [medium](https://medium.com/@jgmc3012/asyncronia-en-python-9d3542a728f5) o en formato markdown desde [github](https://gist.github.com/jgmc3012/df1d09b71a26fa2e6218e7021fb2781f)
+![alter](https://1.bp.blogspot.com/-9DfiQYxVyHk/Vwi___XTRJI/AAAAAAAANnI/yqspgAHcBmUaf5cGycRDSp3cfs7vFBoEg/w1200-h630-p-k-no-nu/panoramica-cocina-sant-pau.jpg)
 # Python en el cuerpo de un/a mesoner@
 ¿Te imaginas que el/la camarer@ de un restaurante pudiera tomar solo una orden a la vez? Es decir, que si alguien le pidiera unas papas fritas no pudiera atender a más nadie hasta que entregue esas papas fritas.
 
