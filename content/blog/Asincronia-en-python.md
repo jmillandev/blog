@@ -10,7 +10,7 @@ math: false
 toc: false
 ---
 
-##### NOTA: Puedes ver este mismo post desde [medium](https://medium.com/@jgmc3012/asyncronia-en-python-9d3542a728f5) o en formato markdown desde [github](https://gist.github.com/jgmc3012/df1d09b71a26fa2e6218e7021fb2781f)
+##### NOTA: Puedes ver este mismo post desde [medium](https://medium.com/@jmillandev/asyncronia-en-python-9d3542a728f5) o en formato markdown desde [github](https://gist.github.com/jmillandev/df1d09b71a26fa2e6218e7021fb2781f)
 ![alter](https://1.bp.blogspot.com/-9DfiQYxVyHk/Vwi___XTRJI/AAAAAAAANnI/yqspgAHcBmUaf5cGycRDSp3cfs7vFBoEg/w1200-h630-p-k-no-nu/panoramica-cocina-sant-pau.jpg)
 # Python en el cuerpo de un/a mesoner@
 ¿Te imaginas que el/la camarer@ de un restaurante pudiera tomar solo una orden a la vez? Es decir, que si alguien le pidiera unas papas fritas no pudiera atender a más nadie hasta que entregue esas papas fritas.
@@ -824,6 +824,6 @@ Aca te dejo un [repo en github](https://github.com/timofurrer/awesome-asyncio) d
 Espero hayas quedado con ganas de crear futuros proyectos utilizando asyncio en python y con el hambre de investigar mas sobre esta tecnologia. El ecosistema de asyncio ha venido creciendo en los ultimos años. 
 
 
-Me despido, ojala hayas disfrutado esta lectura tanto como yo crearla. Si quieres dejarme algun feedback lo puedes hacer mencionandome Twitter como [jgmc3012](https://twitter.com/jgmc3012).
+Me despido, ojala hayas disfrutado esta lectura tanto como yo crearla. Si quieres dejarme algun feedback lo puedes hacer mencionandome Twitter como [jmillandev](https://twitter.com/jmillandev).
 
 Hasta la proximas Dev🤘.

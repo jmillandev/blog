@@ -1,18 +1,18 @@
 #!/bin/bash
 
-echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
+echo -e "\033[0;32mDeploying updates to GitHub Pages...\033[0m"
 
 cd public
 
-if [ -n "$GITHUB_AUTH_SECRET" ]
+if [ -n "$BOT_GITHUB_AUTH_SECRET" ]
 then
     touch ~/.git-credentials
     chmod 0600 ~/.git-credentials
-    echo $GITHUB_AUTH_SECRET > ~/.git-credentials
+    echo $BOT_GITHUB_AUTH_SECRET > ~/.git-credentials
 
     git config credential.helper store
-    git config user.email "jgmc3012+blog-bot@users.noreply.github.com"
-    git config user.name "jgmc3012-blog-bot"
+    git config user.email "jmillandev-blog-bot@users.noreply.github.com"
+    git config user.name "jmillandev-blog-bot"
 fi
 
 git add .
