@@ -28,3 +28,5 @@ jobs:
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/master' }}
         run: ./deploy.sh
+        env:
+          BOT_GITHUB_AUTH_SECRET: ${{ secrets.BOT_GITHUB_AUTH_SECRET }}
