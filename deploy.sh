@@ -6,6 +6,7 @@ cd public
 
 if [ -n "$BOT_GITHUB_AUTH_SECRET" ]
 then
+    echo "Set Bot Credentials"
     touch ~/.git-credentials
     chmod 0600 ~/.git-credentials
     echo $BOT_GITHUB_AUTH_SECRET > ~/.git-credentials
