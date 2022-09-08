@@ -31,5 +31,5 @@ jobs:
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./public
-          publish_branch: your-branch
+          publish_branch: master
           external_repository: jmillandev/jmillandev.github.io
