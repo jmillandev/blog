@@ -1,0 +1,776 @@
+<!doctype html><html lang=es-es><head><title>| Jesús Millán</title><meta charset=utf-8><meta name=language content="en"><meta name=description content><meta name=keywords content><meta name=viewport content="width=device-width,initial-scale=1"><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=twitter:card content="summary"><meta name=twitter:title content><meta name=twitter:description content><meta name=twitter:site content="@jmillandev"><meta name=twitter:creator content="https://twitter.com/jmillandev"><link rel="shortcut icon" type=image/png href=/favicon.ico><link type=text/css rel=stylesheet href=/jmillandev.github.io/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="><link type=text/css rel=stylesheet href=/jmillandev.github.io/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css integrity="sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","url":"https:\/\/\/jmillandev.github.io\/apuntes\/javascript\/","name":"","author":{"@type":"Person","name":""},"description":""}</script></head><body><div class=burger__container><div class=burger aria-controls=navigation aria-label=Menu><div class="burger__meat burger__meat--1"></div><div class="burger__meat burger__meat--2"></div><div class="burger__meat burger__meat--3"></div></div></div><nav class=nav id=navigation><ul class=nav__list><li><a href=/jmillandev.github.io/>About</a></li><li><a class=active href=/jmillandev.github.io/apuntes/>Apuntes</a></li><li><a href=/jmillandev.github.io/blog/>Blog</a></li></ul></nav><main><style>@media(min-width:1024px){.post{width:85%;margin:0 auto;max-width:100%}}</style><div class=flex-wrapper><div class=post__container><div class=post><header class=post__header><h1 id=post__title></h1></header><article class=post__content><h1 id=aspectos-basicos>Aspectos Basicos</h1><h2 id=como-llega-y-corre-un-script-en-el-navegador>Como llega y corre un script en el navegador<a class=anchor href=#como-llega-y-corre-un-script-en-el-navegador>#</a></h2><p>El <strong>DOM</strong> es la representación que hace el navegador de un documento HTML.</p><p>El navegador interpreta el archivo HTML y cuando termina de transformarlo al DOM se dispara el evento <em>DOMContentLoaded</em> lo que significa que todo el documento está disponible para ser manipulado.</p><p>Todo script que carguemos en nuestra página tiene un llamado y una ejecución. Hay que tener en cuenta que cuando carga una página y se encuentra un script a ejecutar toda la carga se detiene. Por eso se recomienda agregar tus scripts justo antes de cerrar el body para que todo el documento esté disponible(de esta forma puedes interactuar con los elementos del DOM con la seguridad de q ue existen).
+Existen metodos asincronos para evitar que la creacion del DOM se detenga inmediatamente al leer el script. Esto tanto con <em>async</em> como <em>defer</em> podemos hacer llamados asíncronos pero tiene sus diferencias:</p><ul><li><strong>async</strong>. Con async podemos hacer la petición de forma asíncrona y no vamos a detener la carga del DOM hasta que se haga la ejecución del código.</li><li><strong>defer</strong>. La petición es igual asíncrona como en el async pero va a deferir la ejecución del Javascript hasta el final de que se cargue todo el documento. Es decir el script corre despues de que todo el arbol del DOM es construido.</li></ul><h2 id=concatenacion>Concatenacion<a class=anchor href=#concatenacion>#</a></h2><ul><li><p>Tradicional:
+Es la utilizada tradicionalmente en los lenguajes de programacion, funciona utilizando el operador +. Ejemplo:</p><p>&lsquo;Jesus&rsquo; + &lsquo;Millan&rsquo;</p><p>>> &lsquo;Jesus Millan&rsquo;</p></li><li><p>Interpolacion:
+Es una forma nueva de concatenar texto, y para en lo personal me parece mas facil y clara de leer. Funciona utilizando el operador comillas invertidas (<code> </code>). Ejemplo:</p><p>var firstName = &lsquo;Jesus&rsquo;;
+var lastName = &lsquo;Millan&rsquo;;</p><p>`${firstName} ${lastName}`</p><p>>> &lsquo;Jesus Millan&rsquo;</p><p><strong>NOTA:</strong> Dentro de las {} van codigo Js, el caracter para escapar texto es &lsquo;'.</p></li></ul><h2 id=depurar>Depurar<a class=anchor href=#depurar>#</a></h2><p>En ocasiones nuestro código puede fallar por errores de syntaxis o errores lógicos. En caso de que quieras verificar tu código, debes utilizar la palabra clave &lsquo;debugger&rsquo;. El código se detiene cada vez que lee esta palabra.</p><h2 id=diferencia-entre-var-let-y-const>Diferencia entre var, let y const<a class=anchor href=#diferencia-entre-var-let-y-const>#</a></h2><ul><li><p>““<em>var</em>”” es la manera más antigua de declarar variables. No es muy estricta en cuanto al alcance, ya que al declarar variables de esta forma, dichas variables podrán ser accedidas, e incluso modificaddas, tanto dentro como fuera de los bloques internos en una función.</p></li><li><p>““<em>let</em>”” por otra parte, el alcance se reduce al bloque (las llaves) en el cual la variable fue declarada. Fuera de este bloque la variable no existe. Una vez declarada la variable con let, no se puede volver a declarar con en ninguna otra parte de la función.</p></li><li><p>““<em>const</em>”” al igual que ““<em>let</em>”” se define en el contexto o alcance de un bloque, a diferencia de let y var, las varibles definidas como constantes (const), ya no podrán ser modificadas ni declaradas nuevamente, en ninguna otra parte de la función o el contexto en el que ya existen.</p></li></ul><p>La recomendación es reducir siempre al mínimo el alcance de nuestras variables, por lo que se debe usar let en lugar de var mientras sea posible.</p><h1 id=variables>Variables</h1><h2 id=strings>Strings<a class=anchor href=#strings>#</a></h2><p>Son cadenas de texto. Para indicar que estamos usando una cadena de texto debemos de colocar las comillas simples ('').</p><h3 id=metodos>Metodos<a class=anchor href=#metodos>#</a></h3><ul><li>toUpperCase:
+Sirve para transformar un String a mayúsculas.</li><li>toLowerCase:
+Sirve para transformar el string a minúsculas.</li><li>charAt(N):
+Retorna el caracter que esta en la posicion N.</li></ul><h3 id=atributo>Atributo<a class=anchor href=#atributo>#</a></h3><ul><li>length:
+Nos indica la cantidad de caractéres que tiene un string.
+Para concatenar dos strings se utiliza el símbolo (+)
+Ejemplo:
+<code>let nombreCompleto = nombre + ’ ’ + apellido</code>
+O carateres invertidos (`) delimitando las variables en ${}</li></ul><pre><code>let nombreCompleto =`${nombre} ${apellido}`
+</code></pre><h1 id=json-javascript-object-notation>JSON: JavaScript Object Notation</h1><p>Un objeto nos permite la modelacion y abstracion de un &ldquo;objeto&rdquo; del mundo real.</p><p><strong>NOTA:</strong> Un objeto también se puede pasar como atributo en una función.</p><h2 id=definicion>Definicion<a class=anchor href=#definicion>#</a></h2><p>Se definen delimitados mediante llaves( {} )</p><p>Un atributo se compone de una clave (key) y un valor (value), que se separan entre sí por dos puntos( : ). Los valores pueden ser de tipo <em>string</em>, <em>número</em>, <em>booleano</em>, etc. Cada atributo está separado del siguiente por una coma( , ). Un objeto puede tener todos los atributos que sean necesarios.</p><h2 id=acceso>Acceso<a class=anchor href=#acceso>#</a></h2><p>Existen al menos dos formas de acceder al valor de un atributo de un objeto:</p><h3 id=comun>Comun<a class=anchor href=#comun>#</a></h3><p>Escribir el nombre de un objeto separado por un punto del nombre de un atributo.Ejemplo
+<code>var nombre = persona.nombre;</code></p><h3 id=desestructuracion>Desestructuracion<a class=anchor href=#desestructuracion>#</a></h3><p>Las últimas versiones de JavaScript nos permiten desglosar el objeto para acceder únicamente al atributo que nos interesa. Esto se consigue encerrando el nombre del atributo entre llaves { }.
+Para no duplicar las variables se introduce el nombre de la variable como parámetro de la segunda variable.
+Ejemplos: En los proximos ejemplo las dos lineas de codigo son completamente analogas</p><p>Ejemplo_1:</p><pre><code class=language-[javascript]>var nombre = persona.nombre;
+var{ nombre } = persona;
+</code></pre><p>Ejemplo_2:</p><pre><code class=language-[javascript]>let alias = seccion.alumno.nombre;
+let {
+  section: {
+    nombre: alias
+    } 
+  } = section
+</code></pre><p><em><strong>IMPORTANTE</strong></em>
+Javascript se comporta de manera distinta cuando le pasamos un objeto como parámetro.</p><p>Cuando le pasamos un objeto a una funcion, este se pasan como una referencia del objeto, lo que significa que el objeto es modificado incluso fuera de la funciona.
+Para solucionar esto se puede crear un objeto diferente o auxiliar. Esto lo podemos hacer colocando tres puntos antes del nombre del objeto(lo cual crea un desgloce del objeto).
+Ejemplo:</p><pre><code>aux = {
+       …persona,
+    }
+</code></pre><h1 id=librerias-standar-de-js>Librerias Standar de Js</h1><h2 id=timer>Timer<a class=anchor href=#timer>#</a></h2><p>Los timer nos permiten ejecutar funciones despues de determinado tiempo. En js existen 2:</p><ol><li><p>setInterval(function, x) : Ejecuta una &ldquo;function&rdquo; cada &ldquo;x&rdquo; intervalo de milisegundos</p></li><li><p>setTimeout(functino ,x) : Ejecuta una &ldquo;function&rdquo; en &ldquo;x&rdquo; milisegundos</p></li></ol><h1 id=comparaciones>Comparaciones</h1><p>Existen varias maneras de comparar variables u objetos dentro de javascript.</p><p>Imaginemos que le asignamos a una variable <em>X</em> un valor numérico y a una variable <em>Y</em> un string. Para poder compararlos debemos agregar dos signos de igual (==). Esto los convierte al mismo tipo de valor y permite que se puedan comparar.</p><p><strong>NOTA:</strong> Cuando realizamos operaciones es recomendable usar tres símbolos de igual (===). Esto permite que JavasScript no iguale las variables que son de distinto tipo. Es recomendado que se use el triple igual siempre que se estén comparando variables.</p><p>Recuerda existen cinco tipos de datos que son primitivos:</p><ol><li>Boolean</li><li>Null</li><li>Undefined</li><li>Number</li><li>String</li></ol><p><em><strong>MUY IMPORTANTE:</strong></em> Cuando comparamos objetos en Js, lo que hacemos es preguntar por la <em>referenacia en memoria RAM a la(s) variable(s)</em> que estamos consultando.</p><h1 id=funciones>Funciones</h1><p>Son fracciones de código reutilizable.</p><ul><li>Para definir una función utilizaremos la palabra reservada <em>function</em>.</li><li>Delimitamos el cuerpo de la función usando llaves { }.</li><li>Los parámetros de la función son variables que se pasan a la función escribíendolos entre paréntesis ().</li></ul><p>Ejemplo:</p><pre><code class=language-[javascript]>function nameFunction (var1, var2, ...,varn){
+    code...
+}
+</code></pre><p><strong>Nota:</strong> JavaScript es un lenguaje interpretado, esto quiere decir que intentará ejecutar el código sin importar si los parámetros que le pasemos a la función estén invertidos o incluso incompletos.</p><h2 id=arrow-function>Arrow Function<a class=anchor href=#arrow-function>#</a></h2><p>Las Arrow Functions permiten una nomenclatura más corta para escribir expresiones de funciones. Este tipo de funciones deben definirse antes de ser utilizadas.</p><p>Al escribir las Arrow Functions no es necesario escribir la palabra function, y en algunos casos tampoco la palabra return, ni las llaves. Ejemplo:</p><pre><code class=language-[javascript]>const nameFunction = ( parameters ) =&gt; {
+    code to executed ...
+    return ...
+}
+
+const nameFunction = parameter =&gt; This is the value return
+</code></pre><h1 id=scopealcance>Scope/ALcance</h1><p>El Scope o ámbito es lo que define el tiempo de vida de una variable, en que partes de nuestro código pueden ser usadas.</p><p>Existen diferentes Scopes:</p><ol><li><strong>Global Scope</strong>
+Variables disponibles de forma global se usa la palabra <strong>var</strong>, son accesibles por todos los scripts que se cargan en la página. Toda variable que está definida fuera del cuerpo de una funcion, bloque o modulo es una variable <strong>global</strong>.
+**IMPORTANTE:**Aquí hay mucho riesgo de sobreescritura. No deben utilizarse</li></ol><p>Ejemplo:</p><pre><code class=language-[JavaScript]>function printNumbers() {
+  for (var i = 0; i &lt; 10; i++) {
+    setTimeout( () =&gt; console.log(i) , 100 )
+  }
+}
+</code></pre><p>En el ejemplo anterio se utilizo <em>var</em> para definir la variable. Esto la convierte en una variable global. Llevandonos a un <strong>ERROR</strong> en lo que se desea que haga el codigo. Por este tipo de razones deben tratarse las variables globales con suma precaucion.</p><ol start=2><li><strong>Function Scope</strong>
+Variables declaradas dentro de una función, sólo visibles dentro de ella misma (incluyendo los argumentos que se pasan a la función).</li></ol><p>Ejemplo1:</p><pre><code class=language-[JavaScript]>function printNumbers() {
+  for (var i = 0; i &lt; 10; i++) {
+    const eventuallyPrintNumber = (n) =&gt; setTimeout( () =&gt; console.log(n) , 100 )
+    eventuallyPrintNumber(i)
+  }
+}
+</code></pre><p>El ejemplo anterior es un codigo correcto que hace lo que queremos, ya que al manejar la <em>variable</em> como un <em>parametro</em> esta pertenece al scope local de la funcion. recordando sus valores en cada iteracion.</p><ol start=3><li><strong>Block Scope</strong>
+Variables definidas dentro de un bloque, por ejemplo variables declaradas dentro un loop while o for. Se usa <em>let</em> y <em>const</em> para declarar este tipo de variables.</li></ol><pre><code class=language-[JavaScript]>function printNumbers() {
+  for (let i = 0; i &lt; 10; i++) {
+    setTimeout( () =&gt; console.log(i) , 100 )
+  }
+}
+</code></pre><p>El codigo anterior hace exactamente lo que queremos que haga, con tan solo hacer el cambio de <em>var</em> a <em>let</em>, el codigo funciona a la perfeccion, ya que las variables declaradas con <strong>let</strong> y <strong>const</strong> trabajan sobre un bloque de ambito local. Por lo que para cada iteracion el bloque recordara cual es la variable asignada para el.</p><ol start=4><li><strong>Module Scope</strong>
+Cuando se denota un <strong>script</strong> de tipo <strong>module</strong> con el atributo <strong>type="module</strong> las variables son limitadas al archivo en el que están declaradas. La forma de acceder a ellas desde otro ambito es por medio de la importacion del modulo.</li></ol><p>Ejemplo:</p><p>Archivo1: media-player.js</p><pre><code class=language-[JavaScript]>  import MediaPlayer from './MediaPlayer.js';
+
+  const video = document.querySelector('video');
+  const player = new MediaPlayer({ el: video });
+
+  const button = document.querySelector('button');
+  button.onclick = () =&gt; player.togglePlay();
+</code></pre><p>Archivo2: index.js</p><pre><code class=language-[JavaScript]>function MediaPlayer(config) {
+  this.media = config.el;
+}
+
+MediaPlayer.prototype.play = function() {
+  this.media.play();
+};
+
+MediaPlayer.prototype.pause = function() {
+  this.media.pause();
+};
+
+MediaPlayer.prototype.togglePlay = function() {
+  if (this.media.paused) {
+    this.play();
+  } else {
+    this.pause();
+  }
+};
+
+export default MediaPlayer;
+</code></pre><p>Archivo3: index.js</p><pre><code class=language-[HTML]>&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;PlatziMediaPlayer.js&lt;/title&gt;
+    &lt;link
+      rel=&quot;stylesheet&quot;
+      href=&quot;https://necolas.github.io/normalize.css/8.0.1/normalize.css&quot;
+    /&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;./assets/index.css&quot; /&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;header&gt;
+      &lt;h1&gt;PlatziMediaPlayer.js&lt;/h1&gt;
+      &lt;p&gt;An extensible media player.&lt;/p&gt;
+    &lt;/header&gt;
+
+    &lt;main class=&quot;container&quot;&gt;
+      &lt;video class=&quot;movie&quot;&gt;
+        &lt;source src=&quot;./assets/BigBuckBunny.mp4&quot; /&gt;
+      &lt;/video&gt;
+
+      &lt;button&gt;Play/Pause&lt;/button&gt;
+    &lt;/main&gt;
+
+    &lt;script src =&quot;index.js&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h1 id=estructuras-de-control>Estructuras de Control</h1><h2 id=condicionales>Condicionales<a class=anchor href=#condicionales>#</a></h2><p>Los condicionales nos permiten decidir si un código se ejecuta o no. Mediante un condicional (if) decidiremos si se ejecuta una parte de nuestro código cuando se cumpla o no cierta condición. Ejemplo</p><pre><code class=language-[javascript]>if (condition) {
+    This code be executed if condition is true...
+} else {
+    This code be executed if confition is false...
+}
+</code></pre><h2 id=bucles>Bucles<a class=anchor href=#bucles>#</a></h2><p>Se utilizan para repetir una o más instrucciones un determinado número de veces o mientras/hasta que se cumpla una condicion.</p><h3 id=for>For<a class=anchor href=#for>#</a></h3><p>El bucle for, se utiliza para repetir una o más instrucciones un determinado número de veces.</p><p>Para escribir un bucle for se coloca la palabra for seguida de paréntesis y llaves.
+Ej. for( ){ }. Dentro de los paréntesis irán las condiciones para ejecutar el bucle, y dentro las llaves irán las instrucciones que se deben repetir.
+Ejemplo:</p><pre><code>for (var i=0; i &lt;N; i++) {
+    code...
+}
+</code></pre><h3 id=while>While<a class=anchor href=#while>#</a></h3><p>While se ejecuta únicamente mientras la condición que se está evaluando es verdadera.</p><p>Ejemplo</p><pre><code class=language-[javascript]>while (condition) {
+    code...
+}
+</code></pre><h3 id=dowhile>Do&mldr;While<a class=anchor href=#dowhile>#</a></h3><p>A diferencia de la instrucción while, un bucle do…while se ejecuta una vez antes de que se evalúe la expresión condicional.</p><p>Ejemplo</p><pre><code class=language-[javascript]>Do {
+    code...
+} while (condition)
+</code></pre><h2 id=switch>Switch<a class=anchor href=#switch>#</a></h2><p>Switch se utiliza para realizar diferentes acciones basadas en múltiples condiciones.</p><p>Break, sirve para que el browser se salte un bucle.</p><pre><code class=language-[javascript]>switch (variable) {
+    case value1:
+        code...
+        break;
+    case value2:
+        code...
+        break;
+    case valueN:
+        code...
+        break;
+    default:
+        code...
+        break;
+}
+</code></pre><h1 id=arrays>Arrays</h1><p>Los arrays son estructuras que nos permiten organizar elementos dentro de una collección. Estos elementos pueden ser números, strings, booleanos, objetos, etc.</p><h2 id=declaracion>Declaracion<a class=anchor href=#declaracion>#</a></h2><pre><code>var nombres = ['juan','pedro','jesus','mario'];
+</code></pre><h2 id=metodos-1>Metodos<a class=anchor href=#metodos-1>#</a></h2><h3 id=filter>filter<a class=anchor href=#filter>#</a></h3><p>Para filtrar siempre necesitamos establecer una condición.</p><p>El método filter ( ) crea una nueva matriz con todos los elementos que pasan la prueba implementada por la función proporcionada.</p><p>Recuerda que si no hay elementos que pasen la prueba, filter devuelve un array vacío.
+Ejemplo:</p><pre><code>newArray = array.filter(function (parameter) {
+    filtering logic
+    return boolean
+})
+</code></pre><h3 id=map>map<a class=anchor href=#map>#</a></h3><p>El método map() itera sobre los elementos de un array en el orden de inserción y devuelve un array nuevo con los elementos modificados.</p><pre><code>newArray = array.map(function (parameters) {
+    maping logic
+})
+</code></pre><h3 id=reduce>reduce<a class=anchor href=#reduce>#</a></h3><p>El método reduce() nos permite reducir, mediante una función que se aplica a cada uno de los elemento del array, todos los elementos de dicho array, a un valor único.</p><h1 id=closure>Closure</h1><p>Un closure, básicamente, es una función que recuerda el estado de las variables al momento de ser invocada, y conserva este estado a través de reiteradas ejecuciones.</p><p>Estas nos sirven principalmente para tres cosas:</p><ol><li><strong>IIFE</strong>(Immediately invoked function expression)
+Son funciones que se ejecutan tan pronto como se definen. Es un patrón de diseño también conocido cómo <strong>función autoejecutable</strong> (Self-Executing Anonymous Function ) y se compone por dos partes.</li></ol><ul><li><p>La primera es la función anónima con alcance léxico encerrado por el <code>Operador de Agrupación ()</code>. Esto impide accesar variables fuera del IIFE, así cómo contaminar el alcance (scope) global.</p></li><li><p>La segunda parte crea la expresión de función cuya ejecución es inmediata (), siendo interpretado directamente en el engine de JavaScript.</p></li></ul><p>Ejemplo:</p><pre><code class=language-[JavaScript]> (function() {
+  let color = 'green';
+  function printColor() {
+    console.log(color);
+  }
+</code></pre><ol start=2><li><strong>Retornar funciones</strong>
+Un aspecto <em>fundamental</em> de los <strong>closures</strong> es que son funciones que retornan otras funciones.
+Ejemplo:</li></ol><pre><code class=language-[javaScript]>function crearSaludo(finalDeFrase) {
+  return function (nombre) {
+    console.log(`Hola ${nombre} ${finalDeFrase}`)
+  }
+}
+
+const saludoArgentino = crearSaludo('che')
+const saludoMexicano = crearSaludo('güey')
+const saludoColombiano = crearSaludo('amigo')
+
+saludoArgentino('Sacha') // Hola Sacha che
+saludoMexicano('Sacha') // Hola Sacha güey
+saludoColombiano('Sacha') // Hola Sacha amigo
+</code></pre><ol start=3><li><strong>Variables privadas</strong>
+Los <strong>closures</strong> nos sirven para tener algo <em>parecido</em> a variables privadas, característica que no tiene JavaScript por default. Es decir encapsulan variables que no pueden ser modificadas directamente por otros objetos, sólo por funciones pertenecientes al mismo.
+Ejemplo:</li></ol><pre><code class=language-[JavaScript]>function makeCounter(n) {
+  let count = n;
+
+  return {
+    increase: function() {
+      count = count + 1;
+    },
+    decrease: function() {
+      count = count - 1;
+    },
+    getCount: function() {
+      return count;
+    },
+  };
+}
+
+let counter = makeCounter(7);
+</code></pre><p>En el ejemplo anterior tenemos una objeto(recuerda que en Js las variables son objetos realmente). con un atributo interno privado.</p><h1 id=prototipos-clases>Prototipos (Clases)</h1><p>En Javascript todo son objetos, no tenemos clases, no tenemos ese plano para crear objetos.</p><p>Todos los objetos “heredan” de un prototipo que a su vez hereda de otro prototipo y así sucesivamente creando lo que se llama la <strong>prototype chain</strong>.</p><p>La <em>keyword</em> <strong>new</strong> crea un nuevo objeto que “hereda” todas las propiedades del prototype de otro objeto. No confundir prototype con <strong>proto</strong> que es sólo una propiedad en cada instancía que apunta al prototipo del que hereda.</p><h2 id=bases-del-leguaje>Bases del leguaje<a class=anchor href=#bases-del-leguaje>#</a></h2><p>Lo que se describe a continuacion es parte de las bases del lenguaje, dicha sintaxis ya no es muy utilizada, mas sin embargo es importante tener dichos conceptos claros.</p><p>Las clases(aunque en Js hablamos mas de &ldquo;prototipos&rdquo; y no mucho de &ldquo;clases&rdquo;) son funciones cuya sintaxis tiene dos componentes:</p><ul><li>expresiones</li><li>declaraciones</li></ul><p><strong>Definicion</strong></p><p>Para definir un prototipo solo debemos definir una funcion. Ejemplo</p><pre><code class=language-[javascript]>function prototypeName (parameters) {
+    // this is code of builder
+    this.attribute1 = value1
+    this.attribute2 = value2
+}
+
+// this is a method of the prototype
+prototypeName.prototype.methodName = function (parameters) {
+    code..
+}
+
+var obj = new prototypeName(parameters)
+</code></pre><h2 id=a-partir-de-ecmascript2015>A partir de ECMAScript2015<a class=anchor href=#a-partir-de-ecmascript2015>#</a></h2><p>A partir del 2015 las actualizaciones en el lenguaje trajeron consigo la palabra clave &ldquo;class&rdquo; y una forma mas sencilla de definir prototipos y de hacer &ldquo;herencia&rdquo; entre estos prototipo.</p><p><strong>Importante:</strong> Se debe tener en cuenta que Js no cuenta con <em>clases</em> ni con el <em>keyword new</em>. Estos son una &ldquo;azucar sintactica&rdquo;, pero en el fondo el lenguaje sigue trabajando con prototipos.</p><pre><code class=language-[javascript]>class prototypeName extends prototypePather {
+    constructor (parameters){        
+        super(parametersPather);
+        this.attribute1 = value1;
+        this.attribute2 = value2;
+    }
+}
+
+// this is a method of the prototype
+methodName (parameters) {
+    code..
+}
+
+var obj = new prototypeName(parameters)
+</code></pre><h2 id=obtener-prototipo>Obtener prototipo<a class=anchor href=#obtener-prototipo>#</a></h2><p>La forma correcta de obterner y manejar el <em>prototype</em> de un <em>objeto</em> es atraves de <code>Object.getPrototyptOf(objeto)</code></p><h2 id=herencia-prototipal>Herencia Prototipal<a class=anchor href=#herencia-prototipal>#</a></h2><p>Por default los objetos en JavaScript tienen cómo prototipo a <strong>Object</strong> que es el punto de partida de todos los objetos, es el prototipo padre. Object es la raíz de todo, por lo tanto tiene un prototipo padre undefined.</p><p>Cuando se llama a una función o variable que no se encuentra en el mismo objeto que la llamó, se busca en toda la prototype chain hasta encontrarla o regresar undefined.</p><p>La función <strong>hasOwnProperty</strong> sirve para verificar si una propiedad es parte del objeto o si viene heredada desde su prototype chain.</p><h1 id=this>This</h1><p><em>This</em> se refiere a un objeto, ese objeto es el que actualmente está ejecutando un pedazo de código.</p><p>No se puede asignar un valor a this directamente y este depende de en que scope nos encontramos:</p><ul><li>Cuando llamamos a this en el <strong>Global Scope</strong> o <strong>Function Scope</strong>, se hace referencia al objeto <em>window</em>. A excepción de - cuando estamos en <em>strict mode</em> que nos regresará undefined.</li><li>Cuando llamamos a this desde <strong>una función</strong> que está contenida en un objeto, this se hace referencia a <em>ese objeto</em>.</li><li>Cuando llamamos a this desde una <strong>“clase”</strong>, se hace referencia a la <em>instancia generada</em> por el <em>constructor</em>.</li></ul><h2 id=métodos-call-apply-y-bind>Métodos call, apply y bind<a class=anchor href=#métodos-call-apply-y-bind>#</a></h2><p>Estas funciones nos sirven para establecer el valor de this, es decir cambiar el contexto que se va usar cuando la función sea llamada.</p><p>Las funciones <strong>call</strong>, <strong>apply</strong> y <strong>bind</strong> son parte del prototipo Function. Toda función usa este prototipo y por lo tanto tiene estas tres funciones.</p><ul><li><strong>functionName.call()</strong>
+Ejecuta la función recibiendo como primer argumento el this y los siguientes son los argumentos que recibe la función que llamó a call.
+Ejemplo:</li></ul><pre><code class=language-[JavaScritp]>  // Establece `this` usando `call`
+  function saludar() {
+    console.log(`Hola. Soy ${this.name} ${this.apellido}`);
+  }
+
+  const richard = {
+    name: 'Richard',
+    apellido: 'Kaufman López',
+  };
+
+  saludar.call(richard);
+
+  // Establece `this` usando `call` y pasar argumentos a la función
+  function caminar(metros, direccion) {
+    console.log(`${this.name} camina ${metros} metros hacia ${direccion}.`);
+  }
+
+  caminar.call(richard, 400, 'norte');
+
+</code></pre><ul><li><strong>functionName.apply()</strong>
+Ejecuta la función recibiendo como primer argumento el this y como segundo un arreglo con los argumentos que recibe la función que llamó a apply.
+Ejemplo:</li></ul><pre><code class=language-[JavaScript]>  function caminar(metros, direccion) {
+    console.log(`${this.name} camina ${metros} metros hacia ${direccion}.`);
+  }
+
+  const richard = {
+    name: 'Richard',
+    apellido: 'Kaufman López',
+  };
+
+  // Establece `this` usando `apply` y pasar argumentos a la función
+  const valores = [800, 'noreste'];
+  caminar.apply(richard, valores);
+</code></pre><ul><li><strong>functionName.bind()</strong>
+Recibe como primer y único argumento el this. <strong>No ejecuta la función</strong>, sólo regresa otra función con el nuevo this integrado.</li></ul><pre><code class=language-[JavaScript]>  function saludar() {
+    console.log(`Hola. Soy ${this.name} ${this.apellido}`);
+  }
+
+  const richard = {
+    name: 'Richard',
+    apellido: 'Kaufman López',
+  };
+
+  saludar.call(richard);
+
+  // Establecer `this` en una nueva función usando `bind`
+  
+  const daniel = { name: 'Daniel', apellido: 'Sánchez' };
+  const danielSaluda = saludar.bind(daniel);
+  danielSaluda();
+
+  const danielCamina = caminar.bind(daniel, 2000);
+  danielCamina('oeste');
+
+</code></pre><h1 id=getters-y-setters>Getters y setters</h1><p>Los getters y setters son funciones que podemos usar en un objeto para tener propiedades virtuales. Se usan los keywords set y get para crear estas propiedades.</p><p>Estas propiedades al ser funciones pueden llevar una validación de por medio y ser usadas con el operador de asignación como si fueran una variable más dentro del objeto.
+Tambien nos sirve para tener control sobre lo que exponemos del objeto al Scope ya que no requerimos del keywork &ldquo;this&rdquo; para editar algun atributo.
+Ejemplo:</p><pre><code class=language-[JavaScript]>let persona = {
+  nombre: 'Yeison',
+  apellido: 'Daza',
+  get nombreCompleto() {
+    return`${nombre} ${apellido}`
+  },
+  set nombreCompleto(nom) {
+    const palabras = nom.split(' ');
+    this.nombre = palabras[0] || '';
+    this.apellido = palabras[1] || '';
+  }
+}
+
+persona.nombreCompleto = 'Camilo Sanchez'
+
+console.log(persona.nombre); //camilo
+console.log(persona.apellido); //sanchez
+</code></pre><h1 id=proxy>Proxy</h1><p>El objeto <strong><a href=https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Proxy>Proxy</a></strong> se usa para definir un comportamiento personalizado para operaciones fundamentales (por ejemplo, para observar propiedades, cuando se asignan, enumeración, invocación de funciones, etc).
+Sirve para interceptar la lectura de propiedades de un objeto (los get, y set) entre muchas otras funciones. Así, antes de que la llamada llegue al objeto podemos manipularla con una lógica que nosotros definamos. Esto lo hacemos por medio de &ldquo;trampas&rdquo;".
+Ejemplo:
+En este simple ejemplo el número <strong>37</strong> se devuelve como valor predeterminado cuando la propiedad <code>name</code> no se encuentra en el objeto. Se utilizando el manejador <code>get</code>.</p><pre><code class=language-[JavaScript]>var handler = {
+    get: function(target, name){
+        return name in target?
+            target[name] :
+            37;
+    }
+};
+
+var p = new Proxy({}, handler);
+p.a = 1;
+p.b = undefined;
+
+console.log(p.a, p.b); // 1, undefined
+console.log('c' in p, p.c); // false, 37
+</code></pre><h1 id=asincronismo>Asincronismo</h1><p>JavaScript sólo puede hacer una cosa a la vez, sin embargo; es capaz de delegar la ejecución de ciertas funciones a otros procesos. Este modelo de concurrencia se llama EventLoop.</p><p>JavaScript delega en el navegador ciertas tareas y les asocia funciones que deberán ser ejecutadas al estas tareas ser completadas. Estas funciones se llaman <em>callbacks</em>, y una vez que el navegador ha &ldquo;regresado&rdquo; con la respuesta(de las tareas), el callback asociado pasa a una cola de tareas para ser ejecutado una vez que JavaScript haya terminado todas las instrucciones que están en la pila de ejecución.</p><p><strong>IMPORTANTE</strong>
+Si se acumulan funciones en la cola de tareas y JavaScript se encuentra ejecutando procesos muy pesados, el EventLoop quedará <em>bloqueado</em> y esas funciones pudieran tardar demasiado en ejecutarse.</p><p>En principio, cualquier tarea que se haya delegado al navegador a través de un <em>callback</em>, deberá esperar hasta que todas las instrucciones del programa principal se hayan ejecutado. Por esta razón el tiempo de espera definido en funciones como <em>setTimeout</em>, no garantizan que el callback se ejecute en ese tiempo exactamente, sino en cualquier momento a partir de allí, sólo cuando la cola de tareas se haya vaciado.</p><h2 id=callback>Callback<a class=anchor href=#callback>#</a></h2><p>Un callback es una función que se pasa a otra función como un argumento. Esta función se invoca, después, dentro de la función externa para completar alguna acción.</p><h2 id=orden-en-el-asincronismo>Orden en el asincronismo<a class=anchor href=#orden-en-el-asincronismo>#</a></h2><p>Una manera de asegurar que se respete la secuencia en que hemos realizado múltiples tareas es utilizando <em>callbacks</em>, con lo que se ejecutará luego, en cada llamada. Lo importante es que el llamado al callback se haga a través de una función anónima. Sin embargo, al hacerlo de esta manera generamos una situación poco deseada llamada CallbackHell. Ejemplo:</p><pre><code class=language-[javaScript]>const API_URL = &quot;https://swapi.co/api/&quot;;
+const PEOPLE_URL = &quot;people/:id&quot;;
+const opts = { crossDomain: true };
+
+function obtener_personaje(id, callback) {
+	consturl = `${API_URL}${PEOPLE_URL.replace(&quot;:id&quot;, id)}`;
+	$.get(url, opts, function(persona) {
+		console.log(`Hola yo soy ${persona.name}`);
+		if (callback) {
+			callback();
+		}
+	});
+}
+
+obtener_personaje(1, function() {
+	obtener_personaje(2, function() {
+		obtener_personaje(3, function() {
+			obtener_personaje(4, function() {
+				obtener_personaje(5, function() {
+					obtener_personaje(6);
+				});
+			});
+		});
+	});
+});
+</code></pre><h2 id=promesas>Promesas<a class=anchor href=#promesas>#</a></h2><p>Son justamente eso, promesas de valores que aun no conocemos, pero prometemos conocer en un futuro. Las promesas tienen tres estados:</p><ul><li>pending</li><li>fullfilled</li><li>rejected</li></ul><p>Las promesas se invocan de la siguiente forma:</p><pre><code class=language-javascript>Promesa = new Promise( ( resolve, reject ) =&gt; {
+  // --- llamado asíncrono
+  if( todoOK ) {
+     // -- se ejecutó el llamado exitosamente
+     resolve(parm_okey_1, parm_okey_2)
+  } else {
+     // -- hubo un error en el llamado
+     reject(parm_fail_1, parm_okey_1)
+  }
+} )
+
+Promesa
+  .then(function(parm_okey_1, parm_okey_2) {
+    // este codigo se ejecuta cuando &quot;resolve()&quot; es llamado
+  })
+  .catch(function(parm_okey_1, parm_okey_1) {
+    // este codigo se ejecuta cuando &quot;reject()&quot; es llamado
+  })
+
+</code></pre><h3 id=en-serie>En Serie<a class=anchor href=#en-serie>#</a></h3><p>A diferencia de los callbacks en el CallbackHell, que terminan estando anidados unos dentro de otros, cuando se usan Promesas la ejecución de las llamadas no se hacen de manera anidada sino de manera encadenada, al mismo nivel una debajo de la otra, lo que hace que el código sea mucho más legible y mantenible.</p><p>Ejemplo(replica del codigo anterior con los <em>callback</em>):</p><pre><code class=language-javaScript>const API_URL = &quot;https://swapi.co/api/&quot;;
+const PEOPLE_URL = &quot;people/:id&quot;;
+const opts = { crossDomain: true };
+
+function obtener_personaje(id) {
+	return new Promise((resolve, reject) =&gt; {
+		const url = `${API_URL}${PEOPLE_URL.replace(&quot;:id&quot;, id)}`;
+		$.get(url, opts, function(data) {
+			resolve(data);
+		}).fail(() =&gt; reject(id));
+	});
+}
+
+function on_error(id) {
+    console.log(`Sucedio un error al obtener el personaje ${id}`)
+}
+
+
+obtener_personaje(1)
+    .then(personaje =&gt; {console.log(`El personaje 1 es ${personaje.name}`)
+    return obtener_personaje(2)
+    })
+    .then(personaje =&gt; {console.log(`El personaje 2 es ${personaje.name}`)
+    return obtener_personaje(3)
+    })
+    .then(personaje =&gt; {console.log(`El personaje 3 es ${personaje.name}`)
+    return obtener_personaje(4)
+    })
+    .then(personaje =&gt; {console.log(`El personaje 4 es ${personaje.name}`)
+    return obtener_personaje(5)
+    })
+    .then(personaje =&gt; {console.log(`El personaje 5 es ${personaje.name}`)
+    return obtener_personaje(6)
+    })
+    .then(personaje =&gt; {console.log(`El personaje 6 es ${personaje.name}`)
+    })
+    .catch(on_error)
+</code></pre><h3 id=en-paralelo>En paralelo<a class=anchor href=#en-paralelo>#</a></h3><p>Para hacer el llamado a múltiples promesas, nos apoyamos en un array de ids con el que luego construimos otro arreglo de Promesas, que pasaremos como parámetro a Promise.all( arregloDePromesas ), con las promesas podemos encadenar llamadas en paralelo, algo que no es posible usando callbacks.
+Ejemplo:</p><pre><code class=language-javascript>const API_URL = 'https://swapi.co/api/'
+const PEOPLE_URL = 'people/:id'
+const opts = { crossDomain: true }
+
+function obtenerPersonaje(id) {
+  return new Promise((resolve, reject) =&gt; {
+    const url = `${API_URL}${PEOPLE_URL.replace(':id', id)}`
+    $
+      .get(url, opts, function (data) {
+        resolve(data)
+      })
+      .fail(() =&gt; reject(id))
+  })
+}
+
+function onError(id) {
+  console.log(`Sucedió un error al obtener el personaje ${id}`)
+}
+
+var ids = [1, 2, 3, 4, 5, 6, 7]
+var promesas = ids.map(id =&gt; obtenerPersonaje(id))
+Promise
+  .all(promesas)
+  .then(personajes =&gt; console.log(personajes))
+  .catch(onError)
+</code></pre><h3 id=en-carrera>En carrera<a class=anchor href=#en-carrera>#</a></h3><p>Permite ejecutar multiples promesas al mismo tiempo y ejecutar aquella que termine primero ejemplo:</p><pre><code class=language-javascript>const getUserAll = new Promise(function(todoBien, todoMal) {
+  // llamar a un api
+  setTimeout(function() {
+    // luego de 3 segundos
+    todoBien('se acabó el tiempo');
+  }, 5000)
+})
+
+const getUser = new Promise(function(todoBien, todoMal) {
+  // llamar a un api
+  setTimeout(function() {
+    // luego de 3 segundos
+    todoBien('se acabó el tiempo 3');
+  }, 3000)
+})
+
+Promise.race([
+  getUser,
+  getUserAll,
+])
+.then(function(message) {
+  console.log(message);
+})
+.catch(function(message) {
+  console.log(message)
+})
+
+// En este ejemplo solo se ejecutara getUser
+</code></pre><p><strong>NOTA:</strong> Podemos manejar los errores de las promesas si en el then pasamos un segundo callback, este segundo callback maneraja el error de esa promesa.</p><h2 id=async-await>Async-await<a class=anchor href=#async-await>#</a></h2><p>Es la manera más simple y clara de realizar tareas asíncronas. Await detiene la ejecución del programa hasta que todas las promesas sean resueltas. Para poder utilizar esta forma, hay que colocar async antes de la definición de la función, y encerrar el llamado a Promises.all() dentro de un bloque try … catch.
+Ejemplo:</p><pre><code class=language-javaScript>const API_URL = 'https://swapi.co/api/'
+const PEOPLE_URL = 'people/:id'
+const opts = { crossDomain: true }
+
+function obtenerPersonaje(id) {
+  return new Promise((resolve, reject) =&gt; {
+    const url = `${API_URL}${PEOPLE_URL.replace(':id', id)}`
+    $
+      .get(url, opts, function (data) {
+        resolve(data)
+      })
+      .fail(() =&gt; reject(id))
+  })
+}
+
+function onError(id) {
+  console.log(`Sucedió un error al obtener el personaje ${id}`)
+}
+
+async function obtenerPersonajes() {
+  var ids = [1, 2, 3, 4, 5, 6, 7]
+  var promesas = ids.map(id =&gt; obtenerPersonaje(id))
+  try {
+    var personajes = await Promise.all(promesas)
+    console.log(personajes)
+  } catch (id) {
+    onError(id)
+  }
+}
+
+obtenerPersonajes()
+</code></pre><p><strong>NOTA:</strong> Cualquier funcion async-await retorna una promesa, por lo tanto si requerimos un valor retornado por esta lo obtendremos atraves de un then().</p><p><strong>NOTA:</strong> Todos los errores de la funcion podran ser manejados dentro del cath de la promesa(Leer la nota anterior).</p><h1 id=memoizacion>Memoizacion</h1><p>La memoización es una técnica de programación que nos permite ahorrar cómputo o procesamiento en JavaScript, al ir almacenando el resultado invariable de una función para que no sea necesario volver a ejecutar todas las instrucciones de nuevo, cuando se vuelva a llamar con los mismos parámetros. Es similar a usar memoria cache.
+Ejemplo:</p><pre><code class=language-javaScript>function factorial(n) {
+  if (!this.cache) {
+    this.cache = {}
+  }
+
+  debugger
+  if (this.cache[n]) {
+    return this.cache[n]
+  }
+
+  if (n === 1) {
+    return 1
+  }
+
+  this.cache[n] = n * factorial(n - 1)
+  debugger
+  return this.cache[n]
+}
+</code></pre><h1 id=ajax>Ajax</h1><p>Ajax recibe dos parámetros los cuales son la url de la API y un objeto donde pondrás la configuración que se usara para realizar la petición. En la configuración se añaden dos funciones para manejar cuando la petición se realizo correctamente y cuando falla. Esta es la forma como se realizaria con jQuery un ejemplo sencillo seria el siguiente:</p><pre><code class=language-[javaScript]>
+$.ajax('https://randomuser.me/api/ ', {
+  method: 'GET',
+  success: function(data) {
+    console.log(data)
+  },
+  error: function(error) {
+    console.log(error)
+  }
+})
+</code></pre><p>Peeeeero en el mundo moderno <em>JavaScript</em> internamente cuenta con una función llamada <strong>fetch</strong> que también realiza peticiones a una API. Al igual que Ajax necesita dos parámetros, una url y una configuración, pero si solo le mandas la url fetch usará una configuración por defecto donde el método HTTP será GET.
+<strong>fetch</strong> te regresa una promesa, esa promesa al resolverse te da los datos de respuesta y tiene un método llamado json que te regresa otra promesa con los datos en formato JSON.</p><p>Ejemplo:</p><pre><code class=language-[javaScript]>
+fetch('https://randomuser.me/api/')
+  .then(function (response) {
+    // console.log(response)
+    return response.json()
+  })
+  .then(function (user) {
+    console.log('user', user.results[0].name.first)
+  })
+  .catch(function() {
+    console.log('algo falló')
+  });
+</code></pre><p>Con <strong>fetch</strong> tenemos algo llamado <strong>AbortController</strong> que nos permite enviar una señal a una petición en plena ejecución para detenerla.</p><p>Ejemplo:</p><pre><code class=language-[JAvaScript]>loadButton.onclick = async function() {
+  startLoading();
+
+  controller = new AbortController();
+
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    const blob = await response.blob();
+    const imgUrl = URL.createObjectURL(blob);
+    img.src = imgUrl;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+stopButton.onclick = function() {
+  controller.abort();
+  stopLoading();
+};
+
+</code></pre><p>En el codigo anterior tenemos un objeto <strong>controloador</strong>, que contiene una propiedad <strong>signal</strong> que nos servira para <strong>cancelar</strong> la peticion del fetch en el momento que lo necesitemos.
+Bastara con emitirle una señal al controlador con el metodo <strong>abort</strong>. Que en este caso es llamado a traves de un boton.
+NOTA: El metodo <em>blob</em> del response, no da la respuesta en un binario.</p><h1 id=manejo-de-errores>Manejo de Errores</h1><p>Para el manejo de errores utilizamos el bloqu de codigo <strong>try..catch</strong>. Dentro de <em>try</em> va el vloque de codigo que se va a intentar correr, si sucede un error se ejecutara el bloque <em>catch</em>. Ejemplo:</p><pre><code class=language-[JavaScript]>try {
+  code..
+} catch (error)
+  code.. // el atributo 'error' contiene la informacion sobre el error ocurrido.
+</code></pre><h1 id=interaccion-el-dom>Interaccion el DOM</h1><h2 id=selectores>Selectores<a class=anchor href=#selectores>#</a></h2><p>Un selector nos sirve para poder manipular un objeto del DOM, puedes buscar dicho objeto ya sea por su id, clase, atributo, etc.</p><p>Dentro de JavaScript existen distintas funciones para hacer selectores, entre ellas se encuentra:</p><ul><li><strong>getElementById(&lsquo;id&rsquo;)</strong>: recibe como parámetro el id del objeto del DOM que estás buscando. Te regresa un solo objeto.</li><li><strong>getElementsByTagNamed(&lsquo;tag&rsquo;)</strong>: recibe como parámetro el tag que estas buscando y te regresa una colección html de los elementos que tengan ese tag.</li><li><strong>getElementsByClassName(&lsquo;class&rsquo;)</strong>: recibe como parámetro la clase y te regresa una colección html de los elementos que tengan esa clase.</li><li><strong>querySelector</strong>: va a buscar el primer elemento que coincida con el selector(como los de css['.', &lsquo;#', img, label, etc]) que le pases como parámetro.</li><li><strong>querySelectorAll</strong>: va a buscar todos los elementos que coincidan con el selector que le pases como parámetro.</li></ul><p>Ejemplo:</p><pre><code class=language-[JavaScript]>  const $modal = document.getElementById('modal');
+  const $overlay = document.getElementById('overlay');
+  const $hideModal = document.getElementById('hide-modal');
+
+  const $modalTitle = $modal.querySelector('h1');
+  const $modalImage = $modal.querySelector('img');
+  const $modalDescription = $modal.querySelector('p');
+</code></pre><h2 id=creacionedicion-del-dom>Creacion/Edicion del DOM<a class=anchor href=#creacionedicion-del-dom>#</a></h2><h3 id=templates>Templates<a class=anchor href=#templates>#</a></h3><p>Desde ECMAScript 6 contamos con una nueva característica llamada template literals que se representan con las comillas invertidas ``, el ejemplo anterior pasaría a verse de esta forma:</p><pre><code class=language-[JavaScript]>`&lt;div class=”container”&gt;
+    &lt;p id=${id}&gt;Hola Mundo&lt;p&gt;
+&lt;div&gt;`
+</code></pre><p>La forma en la que utilizamos los template en Js es:</p><pre><code class=language-[JavaScript]>  function videoItemTemplate(movie) {
+    return (
+      `&lt;div class=&quot;primaryPlaylistItem&quot;&gt;
+        &lt;div class=&quot;primaryPlaylistItem-image&quot;&gt;
+          &lt;img src=&quot;${movie.medium_cover_image}&quot;&gt;
+        &lt;/div&gt;
+        &lt;h4 class=&quot;primaryPlaylistItem-title&quot;&gt;
+          ${movie.title}
+        &lt;/h4&gt;
+      &lt;/div&gt;`
+    )
+  }
+</code></pre><h4 id=implementando-el-template>Implementando el template</h4><p>Para convertir nuestra plantilla de texto a un Document Object Model necesitamos crear dentro de memoria un documento HTML, esto es posible gracias al método <strong>document.implementation.createHTMLDocument</strong> . A este documento HTML le vamos a añadir al body, mediante <strong>innerHTML</strong>, nuestra plantilla de texto.
+Este flujo es la magia que hay detrás de varias librerías y frameworks que nos ayudan a crear interfaces.</p><p>Ejemplo:</p><pre><code class=language-[JavaScript]>  function createTemplate(HTMLString) {
+    const html = document.implementation.createHTMLDocument();
+    html.body.innerHTML = HTMLString;
+    return html.body.children[0];
+  }
+  function renderMovieList(list, $container) {
+    $container.children[0].remove();
+    list.forEach((movie) =&gt; {
+      const HTMLString = videoItemTemplate(movie);
+      const movieElement = createTemplate(HTMLString);
+      $container.append(movieElement);
+    })
+  }
+</code></pre><h3 id=creacion-de-elementos-html-individuales>Creacion de elementos HTML individuales<a class=anchor href=#creacion-de-elementos-html-individuales>#</a></h3><p>Vamos a crear un elemento HTML sin usar un template string. Para crear el elemento desde cero vamos a usar el método <strong>document.createElement</strong>, este recibe como parámetro la etiqueta html del elemento que se quiere crear.
+<em>NOTA:</em> no funciona mandándole el template string.</p><p>Para añadirle un atributo al elemento que acabamos de crear haremos uso del método <strong>setAttribute</strong>. Este recibe dos parámetros, uno indicando el nombre del atributo que vamos a añadir y el segundo parámetro indicando el valor de dicho atributo.
+Para añadir multiples atributos vamos a crear una función.</p><p>Ejemplo:</p><pre><code class=language-[javaScript]>  function setAttributes($element, attributes) {
+    for (const attribute in attributes) {
+      $element.setAttribute(attribute, attributes[attribute]);
+    }
+  }
+
+    const $loader = document.createElement('img');
+    setAttributes($loader, {
+      src: 'src/images/loader.gif',
+      height: 50,
+      width: 50,
+    })
+
+</code></pre><h2 id=eventos>Eventos<a class=anchor href=#eventos>#</a></h2><h3 id=escuchar-evento>Escuchar Evento<a class=anchor href=#escuchar-evento>#</a></h3><p>Para que un elemento HTML pueda escuchar algún evento debemos usar el método <strong>addEventListener</strong>. Este método recibe dos parámetros, el nombre del evento que va a escuchar y la función que se va a ejecutar al momento de que se accione el evento.
+Ejemplo:</p><pre><code class=language-[JavaScript]>  const $form = document.getElementById('form');
+
+  $form.addEventListener('submit', (event) =&gt; {
+    event.preventDefault();
+  })
+</code></pre><p><em>NOTA:</em> La página se recarga al momento de ejecutarse el evento submit, para evitar esto debemos quitarle la acción por defecto que viene en submit usando el método event.preventDefault().</p><p><em>NOTA:</em> Se puede consultar los eventos disponibles para los elenmentos HTML desde <a href=https://developer.mozilla.org/es/docs/Web/API/Event>aqui</a></p><h2 id=formulario>Formulario<a class=anchor href=#formulario>#</a></h2><p>Algo muy comun en el desarrollo de aplicaciones en especial las CRUD es la intercacion con formularios para esto Js nos ofrece el metodo <strong>FormData</strong> el cual recibe como parametro un elemento HTML form para interactuar con sus datos.
+Sus principales metodos son <strong>get(&lsquo;name&rsquo;)</strong> y <strong>set(&lsquo;name&rsquo;, &lsquo;value&rsquo;)</strong> donde &lsquo;name&rsquo; es el nombre del sub-elemento del formulario. Ejemplo:</p><pre><code class=language-[Java>$form = document.getElementById('form_1');
+$serch = document.getElementById('buscador_peli');
+
+
+Data = new FormData($form);
+Data = set('buscador_peli','La momia');
+Data = get('buscador_peli'); // La momia
+
+$serch.dataset.atributte; // Valor de 'atribute'
+</code></pre><h2 id=intersectionobserver>IntersectionObserver<a class=anchor href=#intersectionobserver>#</a></h2><p>Sirve para observar elementos y ver cual es su posicion. En el caso de que cruzen un umbral que nosotros definimos nos lo va a notificar para tomar acción.</p><p>El umbral se define por el porcentaje que tiene intersección con el viewport, con la parte visible de nuestra página.</p><p>IntersectionObserver recibe dos parametros:</p><ul><li>Handle : Sera la funcion que se ejecute al momento de que el observador nos notifiique.</li><li>config : Es un JSON que contiene las configuraciones del observador(threshold es una de ellas y la que nos dice en que pocentaje de interseccion nos notificara)</li></ul><p>Ejemplo:</p><pre><code class=language-[JavaScript]>class AutoPause {
+  constructor() {
+    this.threshold = 0.25;
+    this.handleIntersection = this.handleIntersection.bind(this);
+  }
+
+  run(player) {
+    this.player = player;
+
+    const observer = new IntersectionObserver(this.handleIntersection, {
+      threshold: this.threshold,
+    });
+
+    observer.observe(this.player.media);
+  }
+
+  handleIntersection(entries) {
+    const entry = entries[0];
+
+    const isVisible = entry.intersectionRatio &gt;= this.threshold;
+
+    if (isVisible) {
+      this.player.play();
+    } else {
+      this.player.pause();
+    }
+  }
+}
+
+export default AutoPause;
+</code></pre><h2 id=visibilitychange>VisibilityChange<a class=anchor href=#visibilitychange>#</a></h2><p>El <strong>visibilityChange</strong> es un evento y forma parte del API del DOM llamado <strong>Page Visibility</strong> y nos deja saber si el elemento es visible, pude ser usado para ejecutar una acción cuando cambiamos de pestaña. Así podemos ahorrar batería y mejorar la UX.</p><h1 id=service-workers>Service Workers</h1><p>Sirven para hacer que nuestras aplicaciones funcionen Offline.</p><p>Muy usados en las **Progressive Web Apps **(PWA) los ServiceWorkers son una capa que vive entre el navegador y el Internet.</p><p>Parecido a como lo hacen los proxys van a interceptar peticiones para guardar el resultado en cache y la próxima vez que se haga la petición tomar del cache ese resultado.</p><p>Los Service workers se instalan en el navegador, aunque no funcionan como una APP</p><p>Ejemplo de un Service Workers
+sw.js :</p><pre><code class=language-[JavaScript]>const VERSION = 'v1';
+
+self.addEventListener('install', event =&gt; {
+  event.waitUntil(precache());
+});
+
+self.addEventListener('fetch', event =&gt; {
+  const request = event.request;
+  // get
+  if (request.method !== 'GET') {
+    return;
+  }
+
+  // buscar en cache
+  event.respondWith(cachedResponse(request));
+
+  // actualizar el cache
+  event.waitUntil(updateCache(request));
+});
+
+async function precache() {
+  const cache = await caches.open(VERSION);
+  return cache.addAll([
+    '/',
+    '/index.html',
+    '/assets/index.js',
+    '/assets/MediaPlayer.js',
+    '/assets/plugins/AutoPlay.js',
+    '/assets/plugins/AutoPause.js',
+    '/assets/index.css',
+    '/assets/BigBuckBunny.mp4',
+  ]);
+}
+
+async function cachedResponse(request) {
+  const cache = await caches.open(VERSION);
+  const response = await cache.match(request);
+  return response || fetch(request);
+}
+
+async function updateCache(request) {
+  const cache = await caches.open(VERSION);
+  const response = await fetch(request);
+  return cache.put(request, response);
+}
+</code></pre><p><strong>IMPORTANTE:</strong> Es una caracteristica nueva por lo que no esta disponible aun en todoos los navegadores.
+<strong>IMPORTANTE2:</strong> Cuando estemos trabajando en desarrollo debemos habilitar la opcion &ldquo;Update on reload&rdquo; en la seccion de <em>Application > Service Workeers</em> que se encuentra en los Dev Tools</p><h1 id=localstorage-y-sessionstorage>localStorage y sessionStorage</h1><p><strong>sessionStorage</strong> mantiene un área de almacenamiento separada para cada origen que está disponible mientras dure la sesión de la página (mientras el navegador esté abierto, incluyendo recargas de página y restablecimientos).
+<strong>localStorage</strong> hace lo mismo, pero persiste incluso cuando el navegador se cierre y se reabra.</p><p>Estos estan disponibles están disponibles mediante las propiedades <em>Window.sessionStorage</em> y <em>Window.localStorage</em></p><p>Estos mismos tiene los metodos <em>clear</em>, <em>setItem</em> y <em>getItem</em> para elimirar, configurar y obtener sus valores respectivamente.</p><p><em><strong>IMPORTANTE:</strong></em> Estos metodos solo permiten el almacenamiento de <strong>texto plano</strong>. Si deseamos almacenar objetos podemos utilizar el metodo <em>JSON.stringify({objec})</em> para hacer la transformacion. Para volder un texto plata un objeto utilizamos la funcion <em>JSON.paser('{&ldquo;name&rdquo;:value}')</em>.</p><h1 id=generadores>Generadores</h1><p>Los generadores son funciones especiales, pueden <strong>pausar</strong> su ejecución y luego <strong>volver</strong> al punto donde se quedaron recordando su scope.</p><p>Algunas de sus características:</p><ul><li>Los generadores regresan una función.</li><li>Empiezan suspendidos y se tiene que llamar <strong>next</strong> para que ejecuten.</li><li>Regresan un <em>value</em> y un <em>boolean</em> <strong>done</strong> que define si ya terminaron.</li><li><strong>yield</strong> es la instrucción que regresa un valor cada vez que llamamos a <strong>next</strong> y detiene la ejecución del generador.</li></ul><p>Los generadores se definen creando unas funcion seguida de un <strong>*</strong>. Ejemplo:</p><pre><code class=language-[JavaScript]>//Generator Basico
+function* simpleGenerator() {
+  console.log('GENERATOR START');
+  yield 1;
+  yield 2;
+  yield 3;
+  console.log('GENERATOR END');
+}
+
+// Podemos hacer generadores infinitos.
+function* idMaker() {
+  let id = 1;
+  while (true) {
+    yield id;
+    id = id + 1;
+  }
+}
+
+// Cuando llamamos next también podemos pasar valores que la función recibe.
+function* idMakerWithReset() {
+  let id = 1;
+  let reset;
+  while (true) {
+    reset = yield id;
+    if (reset) {
+      id = 1;
+    } else {
+      id = id + 1;
+    }
+  }
+}
+
+// Ahora hagamos un ejemplo un poco más complejo: la secuencia fibonacci
+function* fibonacci() {
+  let a = 1;
+  let b = 1;
+  while (true) {
+    const nextNumber = a + b;
+    a = b;
+    b = nextNumber;
+    yield nextNumber;
+  }
+}
+
+</code></pre><h1 id=como-funciona-javascript>¿Como funciona JavaScript?</h1><h2 id=parsers-y-el-abstract-syntax-tree>Parsers y el Abstract Syntax Tree<a class=anchor href=#parsers-y-el-abstract-syntax-tree>#</a></h2><p>El JS Engine recibe el código fuente y lo procesa de la siguiente manera:</p><ul><li>El <strong>parser</strong> descompone y <a href=https://esprima.org/demo/parse.html>crea tokens</a> que integran el <strong><a href=https://astexplorer.net>AST</a></strong>(Abstract syntax tree).</li><li>Se compila a <strong>bytecode</strong> y se ejecuta.</li><li>Lo que se pueda se <strong>optimiza a machine code</strong> y se reemplaza el código base.</li></ul><p>Un <strong>SyntaxError</strong> es lanzado cuando el motor JavaScript encuentra partes que no forman parte de la sintaxis del lenguaje y esto lo logra gracias a que se tiene un <strong>AST</strong> generado por el parser.</p><p>El <em>parser</em> es del 15% al 20% del proceso de ejecución y es triste, pero la <strong>mayoria</strong> del JavaScript en una paga nunca se ejecuta.
+Por lo que <em>parsear</em> el código justo en el momento que lo necesitamos y no antes de saber si se va a usar o no es super importante. Esto lo podemos hacer por medio de <strong>bundling</strong> y <strong>code splitting</strong>.</p><h3 id=creacion-de-una-regla-para-ast>Creacion de una regla para AST<a class=anchor href=#creacion-de-una-regla-para-ast>#</a></h3><p>Vamos a usar el <strong>AST</strong> para crear una regla de <strong>eslint</strong>, este analizará estéticamente nuestro código a ver si hay que levantar un warning por violar la sintaxis. Muchas de estas reglas ya viene con e eslint, pero podemos agregar nuestras propias reglas. Vamos a usar la herramienta <a href=https://astexplorer.net/#/gist/16fc27fc420f705455f2b42b6c804aa1/42c2d7223f31edbb41bb9615f556d68cb7a793e4>AST Explorer</a> para experimentar. Usaremos la configuración por defecto, veremos en la parte superior izquierda el código que vamos a ingresar, a la derecha el tree creado, en la parte inferior izquierda las funciones de las reglas(que crearemos) y a la derecha de eso la salida de nuestro código.</p><h4 id=test>Test</h4><p>En el <strong>link</strong> de <strong>AST Explorer</strong> ya tenemos un código escrito. Donde el la primera entrada tenemos las tareas que debe cumplir nuestro <strong>fixer</strong>.</p><pre><code class=language-[JavaScript]>const pi = 3.1415;
+const half_pi = 1.57075;
+// variable constantes
+// variables que guarden un numero
+
+// El nombre de la variable tiene que estar en UPPERCASE
+</code></pre><p>A la derecha tenemos el árbol completo de todas estas declaraciones y gracias a el podemos manipular, detectar errores o interpretar lo que escribamos. Luego implementamos una función que recibe la declaración de la variable y accedemos a los datos que nos ofrece el AST para lograr cumplir con los requerimientos de nuestro solucionador.</p><pre><code class=language-[JavaScript]>export default function(context) {
+  return {
+    VariableDeclaration(node) {
+        // tipo de variable const
+          if (node.kind === &quot;const&quot;) {
+          const declaration = node.declarations[0];
+
+          // asegurarnos que el valor es un numero
+          if (typeof declaration.init.value === &quot;number&quot;) {
+            if (declaration.id.name !== declaration.id.name.toUpperCase()) {
+              context.report({
+                node: declaration.id,
+                message: &quot;El nombre de la constante debe estar en mayúsculas&quot;,
+                fix: function(fixer) {
+                  return fixer.replaceText(declaration.id, declaration.id.name.toUpperCase())
+                }
+              })
+            }
+          }
+        }
+    }
+  };
+};
+</code></pre><h2 id=funcionamiento-de-javascript-engine>Funcionamiento de JavaScript Engine<a class=anchor href=#funcionamiento-de-javascript-engine>#</a></h2><p>Una vez tenemos el <strong>AST</strong> ahora hay que convertirlo a Bytecode.</p><p><strong>Bytecode</strong> es como el código assembler pero en lugar de operar en el procesador opera en la máquina virtual <strong>V8</strong> del navegador.</p><p><strong>Machine code</strong> es el más bajo nivel, es código binario que va directo al procesador.</p><p><strong>El profiler</strong> se sitúa en medio del bytecode y el optimizador</p><p>Cada máquina virtual tiene sus particularidades, por ejemplo V8 tiene algo llamado <strong>Hot Functions</strong>.</p><p>Cuando una sentencia función es ejecutada muy frecuentemente, V8 la denomina como una hot function y hace una optimización que consiste en convertirla a machine code para no tener que interpretarla de nuevo y agilizar su ejecución.</p><p>Cada navegador tiene su implementación de JavaScript Engine:</p><p>SpiderMonkey - Firefox
+Chackra - Edge
+JavaScriptCore - Safari
+V8 - Chrome
+Carakan - Opera</p><h2 id=event-loop>Event Loop<a class=anchor href=#event-loop>#</a></h2><p>El <strong>Event Loop</strong> hace que Javascript parezca ser multihilo a pesar de que corre en un solo proceso.</p><p>Javascript se organiza usando dos principales estructuras de datos:</p><ol><li><strong>Stack</strong>: comienza vacio y va apilando de forma organizada las diferentes instrucciones que se llaman. Lleva así un rastro de dónde está el programa, en que punto de ejecución nos encontramos. Este apunta a aspectos como el Scope</li><li><strong>Memory Heap</strong>: De forma desorganizada se guarda información de las variables y del scope.</li></ol><p>Para explicar como se ejecutan los procesor asincronos o progrmados es necesario definir que es un Queue. Un Queue es una estructura de datos muy parecida a un stack.
+Los Queue utilizados por Js son:</p><ol><li><strong>Schedule Tasks.</strong> Aquí se agregan a la cola, las tareas programadas para su ejecución.</li><li><strong>Task Queue</strong>. Aquí se agregan las tareas que ya están listas para pasar al stack y ser ejecutadas. El stack debe estar vacío para que esto suceda.</li><li><strong>MicroTask Queue</strong>. Aquí se agregan las promesas. <strong>Esta Queue es la que tiene mayor prioridad</strong>.</li></ol><p>Todos estas estructuras de informacion trabajan de una forma fluida gracias al Event Loop.</p><p>El Event Loop es un loop que está ejecutando todo el tiempo y pasa periódicamente revisando las queues y el stack moviendo tareas entre estas dos estructuras.</p></article><div class=pagination><a class=pagination__item href=https:///jmillandev.github.io/apuntes/mongodb/><span class=pagination__label>Previous Post</span>
+<span class=pagination__title></span></a><a class=pagination__item href=https:///jmillandev.github.io/apuntes/good-practices/><span class=pagination__label>Next Post</span>
+<span class=pagination__title></a></a></div><div id=disqus_thread></div><script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return;}
+var d=document,s=d.createElement('script');s.async=true;s.src='//'+"jmillandev"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a><footer class=post__footer><div class=social-icons><a class=social-icons__link title=Twitter href=https://twitter.com/jmillandev target=_blank rel=noopener><div class=social-icons__icon style=background-image:url(https:///jmillandev.github.io/svg/twitter.svg)></div></a><a class=social-icons__link title=GitHub href=https://github.com/jmillandev target=_blank rel=noopener><div class=social-icons__icon style=background-image:url(https:///jmillandev.github.io/svg/github.svg)></div></a><a class=social-icons__link title=LinkedIn href=https://www.linkedin.com/in/jmillandev-42664412a/ target=_blank rel=noopener><div class=social-icons__icon style=background-image:url(https:///jmillandev.github.io/svg/linkedin.svg)></div></a></div><p>© 2022</p></footer></div></div></div></main><script src=/jmillandev.github.io/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr+kQ=" crossorigin=anonymous></script><script src=https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js></script><script src=https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js data-autoloader-path=https://unpkg.com/prismjs@1.20.0/components/></script></body></html>

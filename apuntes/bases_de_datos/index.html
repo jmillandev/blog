@@ -1,0 +1,417 @@
+<!doctype html><html lang=es-es><head><title>| Jesús Millán</title><meta charset=utf-8><meta name=language content="en"><meta name=description content><meta name=keywords content><meta name=viewport content="width=device-width,initial-scale=1"><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=twitter:card content="summary"><meta name=twitter:title content><meta name=twitter:description content><meta name=twitter:site content="@jmillandev"><meta name=twitter:creator content="https://twitter.com/jmillandev"><link rel="shortcut icon" type=image/png href=/favicon.ico><link type=text/css rel=stylesheet href=/jmillandev.github.io/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="><link type=text/css rel=stylesheet href=/jmillandev.github.io/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css integrity="sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","url":"https:\/\/\/jmillandev.github.io\/apuntes\/bases_de_datos\/","name":"","author":{"@type":"Person","name":""},"description":""}</script></head><body><div class=burger__container><div class=burger aria-controls=navigation aria-label=Menu><div class="burger__meat burger__meat--1"></div><div class="burger__meat burger__meat--2"></div><div class="burger__meat burger__meat--3"></div></div></div><nav class=nav id=navigation><ul class=nav__list><li><a href=/jmillandev.github.io/>About</a></li><li><a class=active href=/jmillandev.github.io/apuntes/>Apuntes</a></li><li><a href=/jmillandev.github.io/blog/>Blog</a></li></ul></nav><main><style>@media(min-width:1024px){.post{width:85%;margin:0 auto;max-width:100%}}</style><div class=flex-wrapper><div class=post__container><div class=post><header class=post__header><h1 id=post__title></h1></header><article class=post__content><h1 id=importante>Importante</h1><p>La gran parte de esta notas asi como la mayoria de sus ejemplo estan en español.</p><p>Esto en proyectos reales, no es una buena practica.</p><p>Estan de esta manera para que le sea de mayor ayuda a los nuevos miembros de la comunidad hispana de programadores.</p><h1 id=mysql>MYSQL</h1><h2 id=instalacion>Instalacion<a class=anchor href=#instalacion>#</a></h2><p>Para realizar la instalación de MySQL en tu pc lo primero que debes tener en cuenta es que debes hacer la verificación de la versión que quieres instalar y la distribución para tu sistema operativo. En este enlace encuentras el listado de las plataformas soportadas.</p><h3 id=windows>Windows<a class=anchor href=#windows>#</a></h3><p>Si estas trabajando con Windows puedes hacer la descarga ingresando en el siguiente <a href=https://dev.mysql.com/downloads/installer/>enlace</a>. Este es el sitio oficial de MySQL por lo que puedes confiar en la descarga.</p><p>El instalador para Windows es muy similar a los que ya conocemos, nos pide algunas verificaciones y nos permite navegar a través de diferentes ventanas.</p><p>Inicialmente el instalador nos va a solicitar que aceptemos la los términos y acuerdos de la licencia. Revisalos y si estas de acuerdo continua.</p><p>En seguida te va a solicitar información relacionada con el tipo de instalación que vas a realizar, puedes elegir entre Developer Default, Client Only y Full. Cualquiera que sea la opción que elijas esto no implica que luego puedas actualizarla.</p><p>Si instalas la versión Full vas a tener acceso a todas las características y productos que MySQL ofrece.</p><p>Verifica que tengas disponibles todos los requerimientos que el instalador te presenta. En caso de no contar con ellos debes descargar e instalar el software solicitado.</p><p>Continua con la instalación de acuerdo a lo que te indica el ayudante.</p><h3 id=mac>Mac<a class=anchor href=#mac>#</a></h3><p>En nuestro caso vamos a estar trabajando con MySQL en Mac por lo que haremos la instalación en este sistema operativo.</p><p>Para instalar MySQL usando el instalador del paquete:</p><p>Descarga el archivo de imagen del disco ( . dmg ) que contiene el instalador del paquete MySQL. No es necesario tener una cuenta en Oracle para realizar la instalación pero es recomendable hacerlo.</p><p>Haz doble clic sobre el archivo para montar la imagen y ver su contenido.</p><p>Esto te va a mostrar el asistente de instalación de MySQL. El SO puede preguntarte si confías en el origen de este programa, puedes darle continuar hasta que llegues al installation type puedes hacer clic en Instalar para ejecutar el asistente de instalación utilizando todos los valores predeterminados, o puedes hacer clic en Personalizar para modificar qué componentes instalar (servidor MySQL, Prueba de MySQL, Panel de preferencias, Soporte inicializado; todas las pruebas excepto MySQL están habilitadas por defecto). En este caso esta bien que instalemos con los valores por defecto.</p><p>Selecciona el tipo de cifrado de contraseñas que vas a usar para tu base de datos.</p><p>Ingresa una contraseña que no se te vaya a perder u olvidar, porque es la contraseña de tu usuario root para la base de datos.</p><p>En este punto ya tienes instalado tu servidor de MySQL y puedes continuar con el curso.</p><h3 id=linux-debian>Linux Debian<a class=anchor href=#linux-debian>#</a></h3><p>Tutorial sencillo para los usuarios de Linux:</p><p>Se instala el servidor y cliente de mysql.
+<code>sudo apt-get install mysql-server mysql-client</code></p><p>Accedes a la base de datos de mysql.
+<code>> usemysql;</code></p><p>Creas un nuevo usuario.
+<code>create user 'tuNombreDeUsuario'@'localhost' identified by'tuContraseña';</code></p><p>Modificas las siguientes configuraciones de tu usuario.</p><pre><code class=language-SQL>GRANT allprivileges ON *.* TO  'tuNombreDeUsuario'@'localhost'; 
+UPDATE user SET plugin=&quot;auth_socket&quot; WHERE User= 'tuNombreDeUsuario'; 
+FLUSH PRIVILEGES; 
+</code></pre><p>Listo, ya tienes los privilegios para acceder.</p><h2 id=conexcion-a-la-bd>Conexcion a la BD<a class=anchor href=#conexcion-a-la-bd>#</a></h2><p>A traves de la terminal es la manera mas optima de acceder a la base de datos, esto lo hacemos atraves del siguiente comando: <code>mysql -u root -h localhost -p</code></p><p>Banderas:</p><ul><li>-u : Nombre del usuario</li><li>-h : Nombre del host</li><li>-p : Contraseña</li></ul><h2 id=algunos-datos-de-interes>Algunos datos de interes:<a class=anchor href=#algunos-datos-de-interes>#</a></h2><ul><li><strong>Comentarios:</strong></li></ul><pre><code class=language-SQL>/* 
+Esta es la formam en que creamos
+un comentario de bloque
+ */
+
+-- Y asi podemos crear un comenteario de una sola linea
+</code></pre><ul><li><strong>Ejecutar ficheros</strong></li></ul><p>Para ejecutar ficheros con la extension <em>. sql</em>, seguimos la siguiente estructura.</p><pre><code class=language-shell>
+# Si no estamos autenticados
+
+mysql -u user -p &lt; fichero.sql
+
+# Si estamos autenticados(dentro de la consola de mysql)
+
+SOURCE fichero.sql; 
+</code></pre><ul><li><strong>Ejecutar sentencias fuera deslogueados:</strong></li></ul><pre><code class=language-shell>mysql -u root -p libreria -e &quot;SELECT * FROM autores; &quot;
+</code></pre><ul><li><strong>Condicionales:</strong></li></ul><p>A menudo tenemos que crear o eliminar tablas y bases de datos que no estamos totalmente seguro si ya estaban creadas, para solucionar estoy y evitar un posible error en nuestros scripts, utilizamos las siguientes estruturas</p><pre><code class=language-SQL>DROP DATABASE IF EXISTS libreria;
+CREATE DATABASE IF NOT EXISTS libreria;
+</code></pre><p>Como vimos solo tenemos que agregar <code>IF NOT EXISTS</code> o <code>IF EXISTS</code> antes del nombre de la tabla o base de datos.</p><h3 id=restablecer-contraseña-de-root-mysql>Restablecer contraseña de root MySQL<a class=anchor href=#restablecer-contraseña-de-root-mysql>#</a></h3><p>En el caso de que hayamos perdido la contraseña del usurio root, la podemos recuperar siguiendo los siguiente pasos</p><p>Lo primero que devmos hacer es detener el servidor, con cualquiera de los siguiente comandos:</p><pre><code class=language-shell>
+&gt; mysql.server top
+&gt; service mysqls stop
+&gt; mysql stop
+
+</code></pre><p>Una vez el servidor se encuentre detenido, debemos de reiniciarlo en un modo seguro.</p><pre><code class=language-shell>sudo mysqld_safe --skip-grant-tables --skip-networkin
+</code></pre><p><strong>&ndash;skip-grant-tables</strong> Permite conectarnos al servidor sin la necesidad de un password, además de otrogar todos los privilegios a la sesión.</p><p><strong>&ndash;skip-networkin</strong> Detiene la escucha de peticiones TCP/IP</p><p>Ahora, en una nueva pestaña, debemos de conectarnos al servidor utilizando el usuario root:</p><pre><code class=language-shell>mysql -u root
+</code></pre><p>Una vez dentro del servidor, debemos de trabajar con la base de datos <strong>MySQL</strong></p><pre><code class=language-shell>USE mysql;
+</code></pre><p>Con el cambio de base de datos haremos la actualización.</p><pre><code class=language-shell>UPDATE user SET password=PASSWORD('tu_password') WHERE user='root'; 
+</code></pre><p>Si la actualización fue exitosa debemos de salir del servidor</p><pre><code class=language-shell>FLUSH PRIVILEGES;
+exit
+</code></pre><p>El paso final es detener el servidor en modo seguro. Iniciamos el servidor como te costumbre y nos autenticamos, la contraseña ya estará funcionando.</p><pre><code class=language-shell>mysql -u root -p 
+</code></pre><h2 id=declaracion-de-variables>Declaracion de Variables<a class=anchor href=#declaracion-de-variables>#</a></h2><p>Una vez iniciada la sesion en el cliente de base de datos. La sintaxis para declarar una variable es la siguiente</p><pre><code class=language-SQL>SET @nombre = &quot;Valor&quot;;
+
+SET @nombre2 := &quot;Valor2&quot;
+
+SET @curso = &quot;Data Bases&quot;, @gestor = &quot;Mysql&quot;;
+</code></pre><p>Nosotros podemos declarar variables en practicamente cualquier lugar: En funciones, Procedimientos, En sentias, etc.</p><p><em>NOTA:</em> Como pudiste notar, existen dos operadores validos para declarar una variable, el <em>=</em> y el <em>:=</em>.</p><p><strong>IMPORTANTE:</strong> Las variables declaradas dentro de una sesion, perteneceran solo al scope de la misma. Es decir, no podran ser accedidas por otros usuario, e incluso ya no estaran diponibles en el instante que cerremos nuestra sesion.</p><h2 id=obtencion-de-datos>Obtencion de datos<a class=anchor href=#obtencion-de-datos>#</a></h2><p>Para obtener datos de nuestro servidor es muy sencillos. Para esto utilizamos la palabra reservada. <em>SELECT</em></p><pre><code class=language-SQL>SET @nombre = &quot;Valor&quot;, @curso = &quot;Data Bases&quot;;
+
+SELECT @nombre, @curso;
+</code></pre><h2 id=base-de-datos>Base de Datos<a class=anchor href=#base-de-datos>#</a></h2><h3 id=crear>Crear<a class=anchor href=#crear>#</a></h3><p>La estructura para crear una base de datos es la siguiente:</p><pre><code class=language-SQL>CREATE DATABASE libreria;
+</code></pre><p><strong>NOTA:</strong> Con MySQL nosotros podemos establecer el charset que usará la base de datos desde su creación <code>CREATE DATABASE nombre character set utf8;</code></p><h3 id=listar>Listar<a class=anchor href=#listar>#</a></h3><p>Para listar las bases de datos disponibles en nuestro servidor, ejecutaremos:</p><pre><code class=language-SQL>SHOW DATABASES;
+</code></pre><h3 id=eliminar>Eliminar<a class=anchor href=#eliminar>#</a></h3><p>Para Eliminar una base de datos de nuestro servidor ejecutaremos:</p><pre><code class=language-SQL>DROP DATABASE libreria;
+</code></pre><p>Esto eliminara por completo nuestra base de datos(Datos y estructura)</p><h2 id=tipos-de-datos>Tipos de datos<a class=anchor href=#tipos-de-datos>#</a></h2><p>En general, la mayoría de los servidores de base de datos nos permiten almacenar los mismo tipo de datos, como strings, fechas y número.</p><h3 id=alfanuméricos>Alfanuméricos<a class=anchor href=#alfanuméricos>#</a></h3><ul><li>CHAR</li><li>VARCHAR</li></ul><p>En ambos casos nosotros debemos de especificar la longitud máxima que podrá almacenar el campo. Opcionalmente podemos definir el charset que almacenará.
+<code>VARCHAR(20) character set utf8</code></p><h3 id=números-enteros>Números enteros<a class=anchor href=#números-enteros>#</a></h3><table><thead><tr><th>Tipo</th><th>Rango</th></tr></thead><tbody><tr><td>Tinyint</td><td>-128 a 127</td></tr><tr><td>Smallint</td><td>-32, 768 a 32, 767</td></tr><tr><td>Mediumint</td><td>−8, 388, 608 a 8, 388, 607</td></tr><tr><td>Int</td><td>−2, 147, 483, 648 a 2, 147, 483, 647</td></tr><tr><td>Bigint</td><td>−9, 223, 372, 036, 854, 775, 808 a 9, 223, 372, 036, 854, 775, 807</td></tr></tbody></table><h3 id=números-flotantes>Números flotantes<a class=anchor href=#números-flotantes>#</a></h3><p>Para los flotantes encontraremos dos tipos</p><ul><li>Float</li><li>Double</li></ul><p>En ambos casos nosotros debemos de especificar la cantidad de dígitos que almacenará la columna antes y después del punto (p, s).</p><p><code>precio FLOAT(3, 2)</code></p><p>En este caso la columna podrá almacenar hasta tres dígitos como enteros y dos después del punto decimal. Ejemplo: <em>Ejemplo 999. 99</em></p><h3 id=tiempo>Tiempo<a class=anchor href=#tiempo>#</a></h3><table><thead><tr><th>Tipo</th><th>Formato default</th></tr></thead><tbody><tr><td>Date</td><td>YYY-MM-DD</td></tr><tr><td>Datetime</td><td>YYY-MM-DD HH: MI: SS</td></tr><tr><td>Timestamp</td><td>YYY-MM-DD HH: HI: SS</td></tr><tr><td>Time</td><td>HHH: MI: SS</td></tr></tbody></table><h2 id=tablas>Tablas<a class=anchor href=#tablas>#</a></h2><p>Es importante tomar en cuenta que para manupular cualquiera de nuestras tablas, primero debemos indicar que Base de datos esteremos utilizando. Esto los hacemos a traves de la sentencia: <code>USE libreria;</code> .</p><p><em>NOTA:</em> Si queremos saber en que base de datos estamos trabajando utilizaremos la sentencia <code>SELECT DATABASE();</code></p><h3 id=crear-1>Crear<a class=anchor href=#crear-1>#</a></h3><pre><code class=language-SQL>CREATE TABLE autores (
+
+    /* columna y tipo de dato */
+    autor_id INT, 
+    nombre VARCHAR(25), 
+    apellido VARCHAR(25), 
+    genero CHAR(1), 
+    fecha_nacimiento DATE, 
+    pais_origen VARCHAR(40)
+
+); 
+</code></pre><h3 id=listar-1>Listar<a class=anchor href=#listar-1>#</a></h3><pre><code class=language-SQL>SHOW TABLES;
+</code></pre><h3 id=elimiar>Elimiar<a class=anchor href=#elimiar>#</a></h3><pre><code class=language-SQL>DROP TABLES autores;
+</code></pre><h3 id=editar>Editar<a class=anchor href=#editar>#</a></h3><h4 id=renombrar-tabla>Renombrar tabla</h4><pre><code class=language-SQL>-- Estructura:
+-- ALTER TABLE old_name RENAME new_name;
+ALTER TABLE usuarios RENAME users;
+</code></pre><h4 id=agregar-columnas>Agregar columnas</h4><pre><code class=language-SQL>-- Estructura:
+-- ALTER TABLE table_name ADD new_column TYPE [CONSTRAINTS] [DEFAULT value]; 
+ALTER TABLE libros ADD ventas INT UNSIGNED NOT NULL; 
+</code></pre><h4 id=modificar-el-tipo-de-dato-de-una-columna>Modificar el tipo de dato de una columna</h4><pre><code class=language-SQL>-- Estructura:
+-- ALTER TABLE table_name MODIFY name_colum NEW_TYPE; 
+ALTER TABLE usuarios MODIFY telefono VARCHAR(50); 
+</code></pre><h4 id=eliminar-columnas>Eliminar columnas</h4><pre><code class=language-SQL>-- Estructura:
+-- ALTER TABLE table_name DROP column_name;
+ALTER TABLE libros DROP ventas;
+</code></pre><h4 id=agregar-llave-foránea>Agregar llave foránea</h4><pre><code class=language-SQL>-- Estructura
+-- ALTER TABLE table_name ADD FOREIGN KEY(column_name) REFERENCES table_reference(primary_key); 
+ALTER TABLE usuarios ADD FOREIGN KEY(grupo_id) REFERENCES grupos(grupo_id); 
+</code></pre><h4 id=eliminar-llaves-foraneas>Eliminar llaves foraneas</h4><pre><code class=language-SQL>-- Estructura
+-- ALTER TABLE table_name DROP FOREIGN KEY column_name;
+ALTER TABLE usuarios DROP FOREIGN KEY grupo_id;
+</code></pre><h3 id=información>Información<a class=anchor href=#información>#</a></h3><p>Si deseamos obtener informacion sobre la estructura(definicion) de una tabla, ejecutaremos la sentencia</p><pre><code class=language-SQL>DESC autores; 
+-- Tambien podemos utilizar la sentencia:
+SHOW COLUMNS FROM autores; 
+-- Ambas sentencia nos arrojan el mismo output.
+</code></pre><hr><h3 id=crear-tablas-a-partir-de-otras>Crear tablas a partir de otras<a class=anchor href=#crear-tablas-a-partir-de-otras>#</a></h3><pre><code class=language-SQL>CREATE TABLE usuarios LIKE autores;
+</code></pre><h3 id=restricciones>Restricciones<a class=anchor href=#restricciones>#</a></h3><p>Las restrincciones son una especie de &ldquo;banderas&rdquo; que le podemos colocar a los campos de nuestra tablas siguiendo la siguiente estructura <code>nombre VARCHAR(25) RESTRICCION1 RESTRICCION2</code></p><p>Algunas restricciones:</p><ul><li>NOT NULL -> El campo no puede ser nulo</li><li>UNSIGNED -> El campo solo puede almacenar numero positivos</li><li>ENUM(OPT1, OPT2, &mldr; , OPTn) -> El campo solo puede almacenar uno de los valores descriptos, Este pueder ser: numerico o de tipo texto. Este tipo de restriccion No es sensible a mayusculas y minisculas.</li></ul><h3 id=insertar-datos>Insertar Datos<a class=anchor href=#insertar-datos>#</a></h3><pre><code class=language-SQL>INSERT INTO autores (autor_id, nombre, apellido, genero, fecha_nacimiento, pais_origen)
+VALUES (1, &quot;Jesus&quot;, &quot;Millan&quot;, &quot;M&quot;, &quot;1996-12-30&quot;, &quot;Venezuela&quot;); 
+
+/* La linea anterior puede resumirse tambien como  */
+INSERT INTO autores VALUES (2, &quot;Jose&quot;, &quot;Marcano&quot;, &quot;M&quot;, &quot;1970-10-20&quot;, &quot;Venezuela&quot;); 
+
+/* SI se desean insertar solo algunos campos, Se puede hacer con */
+INSERT INTO autores (autor_id, apellido, nombre)
+VALUES (3, &quot;Martinez&quot;, &quot;Maria&quot;); 
+
+-- Si deseamos insertar varias tuplas o registros en una sola sentencia
+INSERT INTO autores (autor_id, nombre, genero, fecha_nacimiento, pais_origen)
+VALUES (1, &quot;Code&quot;, &quot;M&quot;, &quot;1996-12-30&quot;, &quot;Venezuela&quot;), 
+
+    (2, &quot;Code&quot;, &quot;M&quot;, &quot;1996-12-30&quot;, &quot;Venezuela&quot;), 
+    (3, &quot;Code&quot;, &quot;M&quot;, &quot;1996-12-30&quot;, &quot;Venezuela&quot;), 
+    (4, &quot;Code&quot;, &quot;M&quot;, &quot;1996-12-30&quot;, &quot;Venezuela&quot;), 
+    (5, &quot;Code&quot;, &quot;M&quot;, &quot;1996-12-30&quot;, &quot;Venezuela&quot;), 
+    (6, &quot;Code&quot;, &quot;M&quot;, &quot;1996-12-30&quot;, &quot;Venezuela&quot;); 
+
+</code></pre><h3 id=llaves>Llaves<a class=anchor href=#llaves>#</a></h3><p>Las llaves son muy importantes en las tablas, principalmente esta nos permitiran realizar busqueda muy mas rapidas.</p><h4 id=primarias>Primarias</h4><p>Son la llave principal de la tabla</p><p>A tener en cuenta:</p><ul><li>Se recomiendan que sean de tipo un tipo entero</li><li>Se recomientda que solo haya una por tabla</li><li>Colocar la opcion AUTO_INCREMENT</li></ul><p>Estructua:
+<code>col_id TYPE PRIMARY KEY [AUTO_INCREMENT]</code></p><p>Ejemplos:</p><pre><code class=language-SQL>CREATE TABLE usuarios( 
+  usuario_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT
+); 
+-- ó --
+CREATE TABLE usuarios( 
+  usuario_id INT UNSIGNED AUTO_INCREMENT, 
+  PRIMARY KEY(usuario_id)
+); 
+
+</code></pre><h4 id=foraneas>Foraneas</h4><p>Las llaves foraneas nos permiten crear relaciones entre tablas de una forma rapida. La forma en la que funciona es que hacen referencia a un campo de otra tabla(generalmente al campo de la llave primaria), es importante mencionar que estos campo deben ser del mismo tipo.
+Estructura:
+<code>FOREIGN KEY (columna) REFERENCES tabla_referencia(llave_primaria)</code></p><p>Ejemplo:</p><pre><code class=language-SQL>CREATE TABLE autores (
+
+    autor_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, 
+    nombre VARCHAR(25) NOT NULL, 
+    apellido VARCHAR(25) NOT NULL, 
+    genero ENUM('M'.'F'), 
+    fecha_nacimiento DATE NOT NULL, 
+    pais_origen VARCHAR(40) NOT NULL
+
+); 
+
+CREATE TABLE libros (
+
+    libro_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, 
+    autor_id INT UNSIGNED NOT NULL, -- Esta es la llave foranea
+    titulo VARCHAR(60) NOT NULL, 
+    fecha_publicacion DATE NOT NULL, 
+    descripcion VARCHAR(255)
+
+    --Aqui declaramo que el campo autor_id es una llave forenea.
+    FOREIGN KEY (autor_id) REFERENCES autores(autor_id) 
+
+); 
+
+/*
+NOTA: fijese que primero fue declarada la tabla autores para luego hacer
+referencia a ella desde la tabla libros
+*/
+</code></pre><h4 id=unicos>Unicos</h4><p>Nos permite hacer referencia de que un campo tendra un valor unico en nuestra tabla.</p><p>Estructura:
+<code>field TYPE UNIQUE</code>
+Ejemplos:</p><pre><code class=language-SQL>CREATE TABLE usuarios( 
+  usuario_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, 
+  nombre VARCHAR(50) UNIQUE
+); 
+-- otra opcion es: --
+CREATE TABLE usuarios( 
+  usuario_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, 
+  nombre VARCHAR(50), 
+  CONSTRAINT UNIQUE (nombre)
+); 
+</code></pre><p>NOTA: La palabra <strong>CONSTRAINT</strong> es opcional, sin embargo, por temas de legibilidad recomiendo colocarla.</p><p><strong>COMBINACION</strong> de valores unicos:
+Si necesitamos validar el valor único de una combinación de columnas lo haremos de la siguiente manera.
+En este caso queremos validar que la combinación de nombre, apellido y matricula sean unicas en la tabla.</p><pre><code class=language-SQL>CREATE TABLE usuarios( 
+  usuario_id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
+  nombre VARCHAR(50), 
+  apellido VARCHAR(50), 
+  matricula VARCHAR(10), 
+  CONSTRAINT unique_combinacion UNIQUE (nombre, apellido, matricula), 
+  PRIMARY KEY (usuario_id)
+); 
+</code></pre><h2 id=variables-y-funciones-predefinidas-de-mysql>Variables y funciones predefinidas de MYSQL<a class=anchor href=#variables-y-funciones-predefinidas-de-mysql>#</a></h2><h3 id=variables>Variables<a class=anchor href=#variables>#</a></h3><ul><li>current_timestamp -> Contene el valor de la fecha y hora actuales</li></ul><h3 id=fuciones>Fuciones<a class=anchor href=#fuciones>#</a></h3><ul><li>IF (10 > 90, , &ldquo;10 es mayor que 90&rdquo;, &ldquo;Diez no es mayor que noventa&rdquo;)</li><li>IFNULL(field, &lsquo;El campo es nulo&rsquo;)</li></ul><h4 id=para-strings>Para Strings</h4><ul><li>CONTAC(&lsquo;HOLA&rsquo;, ' &lsquo;, &lsquo;MUNDO&rsquo;) : Recibe n argumentos, estos pueden ser, Datos duros, variables o columnas. Retorna la concatenacion de los n valores, en este caso ->'HOLA MUNDO&rsquo;.</li><li>LENGTH(&ldquo;hola mundo&rdquo;) : recibe un string y retorna la cantidad de caracteres en el mismo.</li><li>UPPER(&lsquo;hola&rsquo;) : Retorna -> &lsquo;HOLA&rsquo;</li><li>UPPER(&lsquo;HOLA&rsquo;) : Retorna -> &lsquo;hola&rsquo;</li><li>TRIM(&rsquo; hola mundo &lsquo;): Elimina los prefijos y sufijos de de una cadena de caracteres, por defecto. eliminara los espacio(&rsquo; &lsquo;). Esta ejemplo retorna -> &lsquo;hola mundo&rsquo;</li><li>LEFT(&lsquo;cadena&rsquo;, n) : Nos retorna los primeros n caracteres de la cadena comenzado de izquierda a derecha.</li><li>RIGHT(&lsquo;cadena&rsquo;, n) : Nos retorna los primeros n caracteres de la cadena comenzado de derecha a izquierda.</li></ul><h4 id=para-numéros>Para numéros</h4><ul><li>RAND() : Obtenemos un numero flotante entre 0 y 1</li><li>ROUND( n ) : Esta funcion nos retorna n redondeado</li><li>TRUNCATE(f, i) : Esta funcion nos retorna f que es de tipo flotante truncado con i decimales(i es un entero)</li><li>POWER(b, e) o POW(b, e) : Nos retorna b elevado a la e.</li></ul><h4 id=para-fechas>Para Fechas</h4><ul><li>NOW() : Retorna un datetime con la fecha y hora actuales.</li><li>CURDATE(): Retorna un date con la fecha actual.</li><li>SECOND(datetime) : Recibe un valor de tipo datetime y retorna el segundo de este.</li><li>MINUTE(datetime) : Recibe un valor de tipo datetime y retorna el minuto de este.</li><li>HOUR(datetime) : Recibe un valor de tipo datetime y retorna la hora de este.</li><li>DAY(datetime) : Recibe un valor de tipo date ó datetime y retorna el dia de este.</li><li>MOUNTH(datetime) : Recibe un valor de tipo date ó datetime y retorna el mes de este.</li><li>YEAR(datetime) : Recibe un valor de tipo date ó datetime y retorna el año de este.</li><li>DAYOFWEEK(datetime) : Recibe un valor de tipo date ó datetime y retorna el dia de la semana en entero de este.</li><li>DAYOFMONTH(datetime) : Recibe un valor de tipo date ó datetime y retorna el dia del mes en entero de este.</li><li>DAYOFYEAR(datetime) : Recibe un valor de tipo date ó datetime y retorna el dia del año en entero de este.</li><li>DATE(datetime) : Recibe un valor de tipo datetime y retorna un date.</li></ul><p><strong>NOTA:</strong> Nosotros podemos sumar o restar intervalos de tiempo a nuestros valores, esto lo asemos apoyandonos de la clausula <em>INTERVAL</em>. siguiendo la siguiente estructura: <code>fecha [+-] INTERVAL valor [SECOND MINUTE HOUR DAY WEEK MONTH YEAR]</code> .
+Ejemplo:</p><pre><code class=language-SQL>SELECT NOW() + INTERVAL 25 DAY; 
+</code></pre><h2 id=sentencias>Sentencias<a class=anchor href=#sentencias>#</a></h2><p>A grandes rasgos las sentencias SQL se ejecutan de la siguiente manera.</p><p><strong>NOTA:</strong> Para este ejemplo se presume que el cliente ya esta autenticado.</p><ol><li>Se toma la sentencia(hasta el &ldquo;; &ldquo;) y se envia al servidor.</li><li>El servidor valida que el cliente tiene los permisos necesarios para ejecutar dicha sentencia.</li><li>El servidor valida que el cliente tiene los permisos necesarios para acceder a los datos solicitados.</li><li>El servidor valida la sintaxis de la sentencia</li><li>El servidor determina la forma mas optima de ejecutar el query(se ordenan tablas, se busca por indices, se trabaja con FK, etc.)</li><li>El resultado es eviado al cliente()</li></ol><h3 id=busqueda>Busqueda<a class=anchor href=#busqueda>#</a></h3><p>La busqueda es de la sentencia mas comunes en SQL, esa en su estructura mas basica es asi: <code>SELECT field1, ...,fieldn FROM table_name;</code> .</p><p>Ejemplo:</p><pre><code class=language-SQL>-- obtener una lista del pais de origen de los autores:
+SELECT autor_id, pais_originen FROM autores;
+-- obtener una lista con todos los datos de los autores:
+SELECT * FROM autores;
+</code></pre><p><strong>NOTA:</strong> El caracter * es para indicar que extraeremos todos los campos ó columnas.</p><h4 id=alias>Alias</h4><p>En ocaciones estaremos trabajaremos con columnas o trabajas con nombre bastante complejos, en cualquier coso podremos apoyarnos del keyword <em>AS</em> para crear un alias de las mias. Ejemplo:</p><pre><code class=language-SQL>SELECT fecha_publicacion AS fecha FROM libros AS lb; 
+SELECT 9 * 10 AS resultado; 
+</code></pre><p><strong>NOTA:</strong> los alias de las tablas seran muy utiles cuando se hagan JOINS y setencias complejas.</p><p><strong>NOTA:</strong> Podemos crear alias sin la necesidad de escribir la palabra <em>AS</em> de la siguiente manera: <code>SELECT 9*10 resultado;</code> . Sin embargo por cuestiones de legibilidad esto no es recomendado.</p><h4 id=salida>Salida</h4><p>El output por default de una consulta SQL es en forma de tabla. Nosotros podemos editar este y obtener nuestra respuesta en formato de carta si efectuamos el query de la siguiente manera:</p><pre><code class=language-SQL>SELECT * FROM autores; -- Formato de tabla
+SELECT * FROM autores\G; -- Formato de carta o lista.
+</code></pre><p>Este estilo de output(en carta) usualmente es utilixado cuando el resultado nos arroja muchas columnas, ya que de la otra manera el texte se saldra un poco del formato(Por el tamaño de nuestra consola).</p><h4 id=clausula-where>Clausula WHERE</h4><p>Esta nos sirve para condicionar los resultados obtenidos de nuestra consulta, espeficicando el valor esperado en una de las columnas. Ejemplo:</p><pre><code class=language-SQL>SELECT nombre, apellido FROM autores WHERE autor_id = 1;
+</code></pre><p>Los <strong>signos de igual</strong> que podemos utilizar son:</p><ul><li>Menor(&lt;)</li><li>Mayor(>)</li><li>Menor igual(&lt;=)</li><li>Mayor igual(=>)</li><li>Igual(=)</li><li>Diferente(!= ó &lt;>)</li><li>&lt;=> Seguridad(Es algo parecido al =)</li></ul><p><strong>Operadores logicos</strong>:</p><ul><li>AND -> Todas la condiciones deben ser verdaderas</li><li>OR -> Basta con que se cumpla una de las condiciones</li><li>NOT -> Negación</li></ul><p><strong>IMPORTANTE</strong> los campos nulos deben tratarse una maresa especial, ya que estos mas que como un valor se comportan como un tipo de de dato. Si quiereos obneter los registros con una determinada columna nula, deberemos ejecutar una setnencia como esta:</p><pre><code class=language-SQL>SELECT * FROM autores WHERE seudonimo IS NULL; 
+-- ó
+SELECT * FROM autores WHERE seudonimo &lt;=&gt; NULL; 
+-- O si queremos obtener aquellos que NO son nulos, la sentencia seria:
+SELECT * FROM autores WHERE seudonimo IS NOT NULL; 
+</code></pre><h5 id=rangos>Rangos</h5><p>Cuando deseamos obtener registros entre un rango de valores, deberemos utilizar la clausula <em>BETWEEN AND</em>, siguiendo la siguiente estructura</p><pre><code class=language-SQL>SELECT titulo FROM libros WHERE fecha_publicacion BETWEEN &quot;1995-01-01&quot; AND '2015-12-31';
+</code></pre><h5 id=listas>Listas</h5><p>Cuando deseamos obtener registros entre una lista de valores, deberemos utilizar la clausula <em>IN</em>, siguiendo la siguiente estructura</p><pre><code class=language-SQL>SELECT titulo FROM libros WHERE id IN (1, 32, 33, 41, 53, 61); 
+</code></pre><h5 id=busqueda-en-strings-con-like>Busqueda en strings con LIKE</h5><p>En caso de que necesitemos buscar un substring y no sabemos en que posicion exacta se encuentra de nuestra cadena, nos apoyaremos de la clausula <em>LIKE</em>, del comodin de multicaracteres <em>%</em> y el monocaracter <em>_</em>. Ejemplo:</p><pre><code class=language-SQL>-- Titulos que contienen la palabra 'potter'
+SELECT * FROM libros WHERE titulo LIKE '%potter%';
+
+-- Titulos que contengan 5 caracteres y el 3er caracter sea una 'b'
+SELECT * FROM libros WHERE titulo LIKE '__b__';
+
+-- Titulos que su segundo caracter sea la letra 'a'
+SELECT * FROM libros WHERE titulo LIKE '_a%';
+
+</code></pre><h5 id=expresiones-regulares>Expresiones regulares</h5><p>Para utilizar regex en nuestras sentencias sql nos apoyaremos de la <em>REGEXP</em>, la complejita de la regex dependera de nuestras necesitades. Ejemplo:</p><pre><code class=language-SQL>-- Titulos que comienzan con H,O,L ó A.
+SELECT * FROM titulo WHERE titulo REGEXP '^[HOLA]'
+</code></pre><h4 id=unicos-1>Unicos</h4><p>Se puede dar el caso de que estemos los registros que estemos obteniendo esten duplicado(como es el caso de los titulos de lagunos libros) y solo queremos obtener resultados unicos en nuestras consultas. Esto lo hacemos apoyandones de la clausula <em>DISTINCT</em>, siguiendo la siguiente estructura:</p><pre><code class=language-SQL>SELECT DISTINCT titulo FROM libros;
+</code></pre><h4 id=orden>Orden</h4><p>Si queremos ordenar la salida de nuestra consulta utilizares la clausula <em>ORDER BY</em>. Ejemplo:</p><pre><code class=language-SQL>SELECT titulo FROM libros ORDER BY titulo;
+</code></pre><p><strong>NOTA:</strong> Por defecto el ordenamiento se hace de forma acendente, si queremos hacerlo de forma descendente o bien expresarlo de forma explicita nos apoyaremos de <em>ASC</em> y <em>DESC</em>, ejemplo: <code>SELECT titulo FROM libros ORDER BY titulo DESC;</code></p><p><strong>NOTA:</strong> Si nosotros asi lo deseamos podemos ordenar nuestra salida por mas de un campo. Ejemplo: <code>SELECT * FROM libros ORDER BY libro_id AND titulo ASC;</code></p><h4 id=limitar-salida>Limitar salida</h4><p>En la mayoria de los casos nosotros solo necesitaremos motrar un rango de nuestra consulta, eso lo haremos apoyandonos de la clausula <em>LIMIT</em>, esta recibe uno o dos parametros:</p><ol><li>El offset: Indica el inicio del rango. <strong>Si solo pasamos un valor, este por defecto sera 0(cero).</strong></li><li>El limite: No indica cuando registros vamos a extraer despues de offset.</li></ol><p>Estructura:</p><pre><code class=language-SQL>SELECT * FROM table_name LIMIT offset, limit;
+SELECT * FROM table_name LIMIT limit;
+</code></pre><p>Ejemplo:</p><pre><code class=language-SQL>SELECT titulo FROM libros WHERE autor_id = 2 LIMIT 10;
+</code></pre><h4 id=funciones-de-agregacion>Funciones de agregacion</h4><p>La funciones de agregacion son ejecutadas a un conjunto de datos, es decir al resultado de una sentencia o consulta sql.</p><p>Algunas funciones de agregacion son:</p><h5 id=contar>Contar</h5><pre><code class=language-SQL>-- Cuenta todos los registros de nuestra tabla autores;
+SELECT COUNT(*) FROM autores;
+
+-- Cuenta todos los autores de USA:
+SELECT COUNT(*) FROM autores WHERE pais_origen = &quot;USA&quot;;
+</code></pre><h5 id=sumar>Sumar</h5><pre><code class=language-SQL>-- Suma el total de venta de todos los libros:
+SELECT SUM(ventas) FROM libros;
+</code></pre><h5 id=maximo-y-minimo>Maximo y minimo</h5><pre><code class=language-SQL>-- Retorna el valor de ventas del libro con mas ventas
+SELECT MAX(ventas) FROM libros;
+
+-- Retorna el valor de ventas del libro con menos ventas
+SELECT MIN(ventas) FROM libros;
+</code></pre><h5 id=promedio>Promedio</h5><pre><code class=language-SQL>-- Retorna el promedio de ventas efectuadas
+SELECT AVG(ventas) FROM libros;
+</code></pre><h4 id=grupos>Grupos</h4><p>Habra ocaciones(como con las funciones de agregacion) que necesitaresmo trabajar con conjuntos de datos agrupados de alguna forma. Para esto nos apoyaremos de la clausula <em>GROUP BY</em> seguida del campo(o los campos) por el que deseamos agrupar los conjuntos. Ejemplo:</p><pre><code class=language-SQL>SELECT autor_id, SUM(ventas) AS total FROM libros GROUP BY autor_id ORDER BY total DESC LIMIT
+</code></pre><h4 id=condicion-bajo-agrupamientos>Condicion bajo agrupamientos</h4><p>Como las funciones de agregacion son ejecutadas una vez ya el servidor realizo la consulta, no podemos utilizar estas dentro de nuestra clausula <em>WHERE</em>, si necesitamos filtrar nuestros dados data una funcion de agregacion nos apoyaremos de la clausula <em>HAVING</em>. Ejemplo:</p><pre><code class=language-SQL>SELECT autor_id, SUM(ventas) AS total FROM libros GROUP BY autor_id HAVING SUM(ventas) &gt; 100;
+</code></pre><h4 id=unir-resultados>Unir resultados</h4><p>Para unir resultados lo haremos de la siguiente manera:</p><pre><code class=language-SQL>SELECT CONTACT(nombre, &quot; &quot;, apellido) FROM autores
+UNION
+SELECT CONTACT(nombre, &quot; &quot;, apellidos) FROM usuarios;
+</code></pre><p><strong>IMPORTANTE:</strong> Todas las consultas deben retornar la misma cantidad de columnas. En caso que necesitemos realizar consultas con un numero columnas diferentes podemos completar estas con columnas que contengan un string vacio("").
+<strong>NOTA:</strong> Los encabezados mostrados seran los de la primera consulta</p><h4 id=subconsultas>Subconsultas</h4><p>Para realizar una consulta anidada o una subconsulta es tan sencillo como colocar esta dentro de parentesis, ejemplo:</p><pre><code class=language-SQL>SELECT
+    autor_id
+FROM libros
+GROUP BY autor_id
+HAVING SUM(ventas) &gt; (SELECT AVG(ventas) FROM libros);
+</code></pre><h4 id=uniones>Uniones</h4><p>A menudos necesitaremos obtener datos de dos tablas diferentes que comparten un dato en comun(FOREIGN KEY), la manera mas optima realizar estas consultas es a traves <em>JONIS</em>, existen 4 tipos principales: innner, left, right y outher que pueden ser extendidos a 7 como veremos a continuacion:</p><p>![Joins type](. /img/bases_de_datos/joins. jpg)</p><p><strong>NOTA:</strong> en las sentencia siguientes podemos cambiar <code>ON libros.autor_id = autores.autor_id</code> por <code>USING(autor_id)</code>. Esto porque hemos seguido una buena normalizacion y estandar(o ese se supone) en nuestras tablas.
+<em>USING</em> No es mas que un shortcut de la subclausula <em>ON</em>.</p><p><strong>NOTA:</strong> Si asi lo deseamos con la subclausula <em>ON</em> podremos condicionar aun mmas la union de tablas, como por ejemplo:</p><pre><code class=language-SQL>SELECT *
+  FROM libros
+  INNER JOIN autores ON libros.autor_id = autores.autor_id
+                        AND autores.seudonimo IS NOT NULL;
+
+</code></pre><h5 id=izquierda>Izquierda</h5><p>Si queremos obtener todos los elemenos de la tabla izquiera(incluyendo aquellos que no tenga un valor correspondiente en la tabla de la derecha).</p><pre><code class=language-SQL>SELECT *
+  FROM libros
+  LEFT JOIN autores ON libros.autor_id = autores.autor_id
+  -- Si queremos obtener solo los elementos que no estan incluidos en la tabla izquiera(libros) descomentamos la siguiente linea.
+  -- WHERE autores.autor_id IS NULL
+  ;
+</code></pre><h5 id=derecha>Derecha</h5><p>Si queremos obtener todos los elemenos de la tabla derecha(incluyendo aquellos que no tenga un valor correspondiente en la tabla de la izquiera).</p><pre><code class=language-SQL>SELECT *
+  FROM libros
+  RIGHT JOIN autores ON libros.autor_id = autores.autor_id
+  -- Si queremos obtener solo los elementos que no estan incluidos en la tabla derecha(autores) descomentamos la siguiente linea.
+  -- WHERE autores.autor_id IS NULL
+  ;
+</code></pre><h5 id=interno>Interno</h5><p>Si queremos obtener solo los valores del conjunto que coincide entre las dos tablas:</p><pre><code class=language-SQL>SELECT *
+  FROM libros
+  INNER JOIN autores ON libros.autor_id = autores.autor_id;
+</code></pre><h5 id=externo>Externo</h5><p>Si queremos obtener todos los valores de la tabla nos apoyaremos del <em>LEFT JOIN</em>,<em>RIGHT JOIN</em> y de la clausula <em>UNION</em>.</p><h5 id=producto-cartesiano>Producto cartesiano</h5><p>Para realizr un producto cartesiano entre dos tablas, lo haremos de la sigueitne manera:</p><pre><code class=language-SQL>SELECT usuarios.username, libros.titulo FROM usuarios CROSS JOIN libros;
+-- ó
+SELECT usuarios.username, libros.titulo FROM usuarios INNER  JOIN libros;
+-- ó
+SELECT usuarios.username, libros.titulo FROM usuarios, libros;
+</code></pre><h4 id=validar-si-una-consulta-existe>Validar si una consulta existe</h4><pre><code class=language-SQL>SELECT IF(
+    EXISTS(SELECT libro_id FROM libros WHERE titulo = 'El hobbit'),
+    'Disponible',
+    'No disponible'
+) AS mensaje;
+</code></pre><p><strong>NOTA:</strong> Dentro de la consulta de la funcion EXISTS debemos ser muy cuidadosos del los campo a extraer, pues esto nos afectara en el rendimiento de la consulta. En este caso usamos una llave primaria(que es lo recomendado).</p><h3 id=actualizar>Actualizar<a class=anchor href=#actualizar>#</a></h3><p>Si deseamos actualizar uno o varios registros seguiremos la siguiente estructura:
+<code>UPDATE table_name SET field = Value, field2 = value WHERE ... ;</code></p><pre><code class=language-SQL>UPDATE libros SET descripcion = &quot;Nueva descripcion&quot;, ventas = 1502 WHERE libro_id = 41;
+</code></pre><p><strong>NOTA:</strong> Lo ideal es realizar las actualizacion utilizando la llave primaria, esto agilizara mucho el proceso de busqueda del registro.</p><p><strong>NOTA:</strong> Si no colocamos la clausula where se actualizaran todos los registros.</p><h3 id=eliminar-1>Eliminar<a class=anchor href=#eliminar-1>#</a></h3><pre><code class=language-SQL>DELETE FROM libros WHERE libro_id = 43;
+</code></pre><p><strong>NOTA:</strong> Lo ideal es realizar sentencia utilizando la llave primaria, esto agilizara mucho el proceso de busqueda del registro.</p><p><strong>NOTA:</strong> Si no colocamos la clausula where se eliminaran todos los registros.</p><h4 id=eliminacion-en-cascada>Eliminacion en cascada</h4><p>En ocaciones necesitremos eliminar registros que estan siendo referenciados por otras tablas(Como es el caso de la tabla autores que esta siendo referenciada en la tabla libros). Si nosotros queremos eliminar un autores, este no debe tener libros registrados, este es un proceso un poco tedioso en caso de que nos encontremos con varias tablas referenciadas.</p><p>Es por ello que es recomendable colocarle un CASCADE al evento de DELETE( <code>ON DELETE CASCADE</code> ), esto lo hacemos en la definicion de la tabla de la siguiente manera</p><pre><code class=language-SQL>-- Cuando creamos la tabla
+CREATE TABLE libros (
+
+    libro_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, 
+    autor_id INT UNSIGNED NOT NULL, 
+    titulo VARCHAR(60) NOT NULL, 
+    fecha_publicacion DATE NOT NULL, 
+    descripcion VARCHAR(255)
+
+    FOREIGN KEY (autor_id) REFERENCES autores(autor_id) ON DELETE CASCADE
+
+); 
+
+-- Si la tabla ya existe
+ALTER TABLE libros ADD FOREIGN KEY (autor_id) REFERENCES autores(autor_id) ON DELETE CASCADE; 
+</code></pre><h3 id=restaurar>Restaurar<a class=anchor href=#restaurar>#</a></h3><p>Si deseamos restaurar una tabla(borrar todos sus registros, dejandola como &ldquo;nueva&rdquo;). seguiremos la siguiente estructura: <code>TRUNCATE TABLE table_name;</code> . Ejemplo:</p><pre><code class=language-SQL>TRUNCATE TABLE libros;
+</code></pre><hr><h2 id=funciones>Funciones<a class=anchor href=#funciones>#</a></h2><p>Al igual como si un lenguaje de programacion se tratase, en MYSQL podemos crear nuestras propias funciones.</p><p>Algo interesante a tener en cuenta es que todas las funciones en MYSQL necesitan retornar un valor.</p><h3 id=crear-2>Crear<a class=anchor href=#crear-2>#</a></h3><p>Para crear una nueva funcion debemos seguir la siguiente estructura:</p><pre><code class=language-SQL>DELIMITER caracter(es)
+
+CREATE FUNCTION function_name(parameters1 type1, ..., parametersn type2) 
+RETURNS return_type
+
+BEGIN
+  # CODE
+  RETURN value
+END caracter(es)
+
+DELIMITER ;
+</code></pre><p>Ejemplo:</p><pre><code class=language-SQL>DELIMITER //
+
+CREATE FUNCTION agregar_dias(fecha DATE, dias INT)
+RETURNS DATE
+BEGIN
+  RETURN fecha + INTERVAL dias DAY;
+END//
+
+-- Otra funcion, esta vez ejecutando sentencias dentro de ella:
+CREATE FUNCTION obtener_paginas()
+RETURNS INT
+BEGIN
+  SET @paginas = (SELECT (ROUND( RAND() * 100 ) * 4));
+  RETURN @paginas;
+END //
+
+DELIMITER ;
+</code></pre><h3 id=listar-2>Listar<a class=anchor href=#listar-2>#</a></h3><p>Para listar las funciones disponibles nos apoyaremos de la sentencia:</p><pre><code class=language-SQL>SELECT name FROM mysql.proc;
+</code></pre><p>Si queremos listar solo las funciones declaradas en la base de datos que estamos usando actualmente, nos apoyaremos de la clausula <em>WHERE</em> de la siguiente manera:</p><pre><code class=language-SQL>SELECT name FROM mysql.proc WHERE db = DATABASE() AND TYPE() = 'FUNCTION';
+</code></pre><h3 id=eliminar-2>Eliminar<a class=anchor href=#eliminar-2>#</a></h3><p>Estructura:</p><pre><code class=language-SQL>DROP FUNCTION function_name;
+</code></pre><p>Ejemplo:</p><pre><code class=language-SQL>DROP FUNCTION agregar_dias;
+</code></pre><h2 id=procedimientos>Procedimientos<a class=anchor href=#procedimientos>#</a></h2><p>Los store procedure o procedimientos almanecedos son rutinas la cuales se ejucutan directamente en el motor de base de datos. En estas podemos realizar rutinas complejas asi como trabajar con grupos de datos y ciclos.</p><p><strong>IMPORTANTE:</strong> CAda gestos de base de datos posee su propia forma de trabar con los Store procedure. Por lo que una vez creado los store procedure debemos seguir trabajando con el mismo gestor de base de datos.</p><h3 id=crear-3>Crear<a class=anchor href=#crear-3>#</a></h3><p>Para crear un procedimiento seguimos la siguiente estructura:</p><pre><code class=language-SQL>DELIMITER caracter(es)
+
+CREATE PROCEDURE procedure_name(params_1 TYPE_1, ..., params_n TYPE_n)
+BEGIN
+    # CODE
+END caracter(es)
+
+DELIMITER ;
+</code></pre><p>Ejemplo:</p><pre><code class=language-SQL>DELIMITER //
+
+CREATE PROCEDURE prestamo(usuario_id INT,libro_id INT)
+BEGIN
+    INSERT INTO libros_usuarios(libro_id, usuarios_id) VALUES (libro_id, usuarios_id);
+    UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+END//
+
+DELIMITER ;
+</code></pre><h4 id=retornar-valores>Retornar valores</h4><p>Obtener valores de un procedimiento no es posible, pero si podemos editar una variable que recibimos como parametor, esto lo podemos hacer de la siguiente mantera:</p><pre><code class=language-SQL>DELIMITER //
+
+CREATE PROCEDURE prestamo(usuario_id INT,libro_id INT, OUT cantidad INT)
+BEGIN
+    INSERT INTO libros_usuarios(libro_id, usuarios_id) VALUES (libro_id, usuarios_id);
+    UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+    SET cantidad = (SELECT stock FROM libros WHERE libros.libro_id = libro_id);
+END//
+
+DELIMITER ;
+</code></pre><p><strong>NOTA:</strong> El argumento de &ldquo;cantidad&rdquo; debera ser una @variable, para posteriormente poderla consultar.
+<strong>NOTA:</strong> Se parece mucho a los prodecimientos y su manera de setear valores en lenguajes de bajo nivel com Turbo Pascal.</p><h4 id=condicionales>Condicionales</h4><p>Para trabajar con condicionales en nuestros procedimientos lo haremos de la siguiente manera:</p><pre><code class=language-SQL>DELIMITER caracter(es)
+
+CREATE PROCEDURE procedure_name(params_1 TYPE_1, ..., params_n TYPE_n)
+BEGIN
+    IF condicion_1 THEN
+	# CODE_1
+    ELSEIF condicion_2 THEN
+	# CODE_2
+    .
+    .
+    .
+    ELSE
+        # CODE_n
+    END IF;
+
+END caracter(es)
+
+DELIMITER ;
+</code></pre><p>Tambien podemos trabajar con <em>casos</em> en caso de que tengamos muchos opciones:</p><pre><code class=language-SQL>DELIMITER caracter(es)
+
+CREATE PROCEDURE procedure_name(params_1 TYPE_1, ..., params_n TYPE_n)
+BEGIN
+    CASE
+	WHEN condition_1 THEN
+	    # CODE_1
+	.
+	.
+	.
+	WHE condition_n THEN
+	    # CODE_n
+
+    END CASE
+END caracter(es)
+
+DELIMITER ;
+</code></pre><h4 id=ciclos>Ciclos</h4><p>Para trabajar con ciclos en los procedimientos los haremos de la siguiente manera:</p><pre><code class=language-SQL>DELIMITER caracter(es)
+
+CREATE PROCEDURE procedure_name(params_1 TYPE_1, ..., params_n TYPE_n)
+BEGIN
+
+-- Ciclo While
+    WHILE condition DO
+	#CODE of while
+    END WHILE;
+-- Ciclo Repeat
+    REPEAT
+	#CODE of repeat
+        UNTIL condition
+    END REPEAT;
+END caracter(es)
+
+DELIMITER ;
+</code></pre><p><strong>NOTA:</strong> Seguramente las variable sera algo que te sirva mucho en este modulo</p><p><strong>NOTA</strong> poco relevante: Me llama un poco la atencion la similitud que hay entre SQL y Pascal.</p><h3 id=errores>Errores<a class=anchor href=#errores>#</a></h3><p>Dentro de los store procedure podemos declarar un modulo para realizar ciertas acciones en caso de que ocurra un error dentro del procedimiento. Esto lo hacemos de la siguiente manera:</p><pre><code class=language-SQL>DELIMITER caracter(es)
+
+CREATE PROCEDURE procedure_name(params_1 TYPE_1, ..., params_n TYPE_n)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION -- Si ocurre un error
+    BEGIN
+	# CODE
+    END;
+    # SQL CODE
+END caracter(es)
+
+DELIMITER ;
+</code></pre><h3 id=ejecutar>Ejecutar<a class=anchor href=#ejecutar>#</a></h3><p>Para ejecutar un procedimiento es tan sencillo como <code>CALL procedure_name(arg_1, ..., arg_n);</code>. Los argumentos son en caso de que el procedimiento tenga parametros definidos.</p><h3 id=listar-3>Listar<a class=anchor href=#listar-3>#</a></h3><p>Para listar los procedimientos asociados a nuestra base de datos ejecutaremos:</p><pre><code class=language-SQL>SELECT name FROM mysql.proc WHERE db = DATABASE() AND type = &quot;PROCEDURE&quot;;
+</code></pre><h3 id=eliminar-3>Eliminar<a class=anchor href=#eliminar-3>#</a></h3><p>Eliminar un procedimiento basta con ejecutar <code>DROP PROCEDURE procedure_name;</code></p><h3 id=editar-1>Editar<a class=anchor href=#editar-1>#</a></h3><p>Lamentablemente no es posible editar un procedimiento, debemos eliminarlo y volverlo a crear con los nuevos ajustes.</p><h2 id=vistas>Vistas<a class=anchor href=#vistas>#</a></h2><p>Podemos ver a las vista como una consulta definica por el admin que sera usuda periodicamente. Este luego de creada se comporta de manera muy similar a una tabla(Al menos en el sentido de como hacer consultas sobre ella).</p><h3 id=crear-4>Crear<a class=anchor href=#crear-4>#</a></h3><p>Para crear una vista es muy sencillo, solo deberemos seguir la siguiente estructura <code>CREATE VIEW view_name AS consulta</code>. Siendo &ldquo;consulta&rdquo; del tipo <code>SELECT ...;</code></p><p><strong>NOTA:</strong> Es importante crear y mantener un estandar en los nombres de nuestras vista(por ejemplo colocarle view o vw al inicio o al final, ya que estas se listan como tablas, pero en realidad no lo son. Son vistas)</p><h3 id=editar-2>Editar<a class=anchor href=#editar-2>#</a></h3><p>Para editar una vista seguimos la estructura: <code>CREATE OR REPLACE VIEW view_name AS consulta;</code></p><h3 id=eliminar-4>Eliminar<a class=anchor href=#eliminar-4>#</a></h3><p>Para eliminarla ejecutamos <code>DROP VIEW view_name;</code></p><h2 id=transacciones>Transacciones<a class=anchor href=#transacciones>#</a></h2><p>Una transaccion explicada de una forma sencilla se puede ver como envolver varias sentencias en una sola. Dicho de otra manera, o todas las sentencias se ejecutan de forma correcta o ninguna se ejecutara, ya que podremos regresar al estado de la tabla al comenzar la transaccion. Para crear una trasaccion seguimos la siguiente estructura:</p><pre><code class=language-SQL>START TRANSACTION;
+    # SQL CODE
+-- Si todo va bien
+COMMIT; -- Cofirmamos cambios y finalizamos la transaccion
+
+-- Si algo falla
+ROLLBACK; -- Finalizamos la transaccion sin confirmar los cambios.
+</code></pre><p><strong>NOTA:</strong> Un uso muy comun de las transacciones es dentro de Store Procedures, de esta manera podemos colocar un <em>rollback</em> dentro del majeno de errores del procedimiento.</p><h2 id=motores>Motores<a class=anchor href=#motores>#</a></h2><p>Un motor de almacenamiento se el encargado de almacenar, gestionar y recuperar toda la información de una tabla.</p><p>MySQL nos permite trabajar con diferentes motores de almacenamiento, entre los que destacan <em>MyISAM</em> e <em>InnoDB</em>.</p><p>Para que nosotros conozcamos que motor de almacenamiento podemos utilizar basta con ejecutar la siguiente sentencia en nuestra terminal. <code>SHOW ENGINES;</code></p><p>Obtendremos un listado</p><ul><li>InnoDB</li><li>MRG_MYISAM</li><li>MOMORY</li><li>BLACKHOLE</li><li>MyISAM</li><li>CSV</li><li>ARCHIVE</li><li>PERFORMANCE_SCHEMA</li><li>FEDERATED</li></ul><h3 id=gestion>Gestion<a class=anchor href=#gestion>#</a></h3><p>Si nosotros así lo deseamos podemos cambiar el motor de almacenamiento. Existen dos formas de hacer esto. La primera, es modificar el archivo my.cnf.</p><pre><code class=language-CNF>[mysqld]
+default-storage-engine = innodb
+</code></pre><p>La segunda forma es hacerlo directamente desde nuestra sección, basta con ejecutar la siguiente sentencia. <code>SET storage_engine=INNODB;</code>.</p><p>En ambos casos para este ejemplo modificamos el motor de almacenamiento de MyISAM a InnoDB.</p><hr><p>Si nosotros deseamos conocer qué motor de almacenamiento utiliza una tabla en particular, podemos hacerlo ejecutando la siguiente sentencia.</p><pre><code class=language-SQL>SHOW TABLE STATUS WHERE `Name` = 'tabla' \G;
+</code></pre><p>Si deseamos crear una tabla utilizando un motor en particular, debemos seguir la siguiente estructura.</p><pre><code class=language-SQL>CREATE TABLE tabla_innodb (id int, value int) ENGINE=INNODB;
+CREATE TABLE tabla_myisam (id int, value int) ENGINE=MYISAM;
+CREATE TABLE tabla_default (id int, value int);
+</code></pre><h3 id=myisam>MyISAM<a class=anchor href=#myisam>#</a></h3><p>Es el motor por default de MySQL. Una de las principales ventajas de este motor es la velocidad al momento de recuperar información. MyISAM es una excelente opción cuando las sentencias predominantes en nuestra aplicación sean de consultas, debido a que este no hace un bloqueo de tablas cuando consultamos registros. Esta es una de las razones por las cuales MyISAM es tan popular en aplicaciones web.</p><p>Si tu aplicación necesita realizar búsquedas full-text MyISAM es un mejor opcion.</p><p>La principal desventajas de <em>MyISAM</em> recae en la ausencia de atomocidad, ya que no se comprueba la integridad referencial de los datos. Se gana tiempo en la inserción, sí, pero perdemos confiabilidad en los datos.</p><h3 id=innodb>InnoDB<a class=anchor href=#innodb>#</a></h3><p>La principal ventaja de este motor recae en la seguridad de las operaciones. InnoDB permite la ejecución de transacciones, esto nos garantiza que los datos se persisten de forma correcta y si existe algún error podamos revertir todos los cambios realizados.</p><p>Algo interesante a mencionar sobre InnoDB es que este motor realiza un bloqueo total sobre un tabla cuando es ejecutada una se las siguientes sentencias: Select, Insert, Update y Delete.</p><p>Si deseamos trabajar con transacción y la integridad de los datos sea crucial nuestra mejor opción será InnoDB.</p><h1 id=formas-normales-en-db-relacionales>Formas normales en DB relacionales</h1><p>La normalización en las bases de datos relacionales es uno de esos temas que, por un lado es sumamente importante porque nos apoya no tener datos duplicados ni compuestos en nuestra DB y por el otro suena algo esotérico. Vamos a ver las formas normales (FN) de una manera simple para aplicarlas futuros proyectos.</p><h2 id=primera-forma-normal-1fn>Primera Forma Normal (1FN)<a class=anchor href=#primera-forma-normal-1fn>#</a></h2><p>Esta FN nos ayuda a eliminar los valores repetidos y no atómicos dentro de una base de datos.</p><p>Formalmente, una tabla está en primera forma normal si:</p><ul><li>Todos los atributos son atómicos. Un atributo es atómico si los elementos del dominio son simples e indivisibles.</li><li>No debe existir variación en el número de columnas.</li><li>Los campos no clave deben identificarse por la clave (dependencia funcional).</li><li>Debe existir una independencia del orden tanto de las filas como de las columnas; es decir, si los datos cambian de orden no deben cambiar sus significados.</li></ul><p>Se traduce básicamente a que si tenemos campos compuestos como por ejemplo “nombre_completo” que en realidad contiene varios datos distintos, en este caso podría ser “nombre”, “apellido_paterno”, “apellido_materno”, etc.</p><p>También debemos asegurarnos que las columnas son las mismas para todos los registros, que no haya registros con columnas de más o de menos.</p><p>Todos los campos que no se consideran clave deben depender de manera única por el o los campos que si son clave.</p><p>Los campos deben ser tales que si reordenamos los registros o reordenamos las columnas, cada dato no pierda el significado.</p><h2 id=segunda-forma-normal-2fn>Segunda Forma Normal (2FN)<a class=anchor href=#segunda-forma-normal-2fn>#</a></h2><p>Esta FN nos ayuda a diferenciar los datos en diversas entidades.</p><p>Formalmente, una tabla está en segunda forma normal si:</p><ul><li>Ésta en 1FN.</li><li>Sí los atributos que no forman parte de ninguna clave dependen de forma completa de la clave principal. Es decir, que no existen dependencias parciales.</li><li>Todos los atributos que no son clave principal deben depender únicamente de la clave principal.</li></ul><p>Lo anterior quiere decir que sí tenemos datos que pertenecen a diversas entidades, cada entidad debe tener un campo clave separado. Por ejemplo:</p></article><div class=pagination><a class=pagination__item href=https:///jmillandev.github.io/apuntes/css/><span class=pagination__label>Previous Post</span>
+<span class=pagination__title></span></a><a class=pagination__item href=https:///jmillandev.github.io/apuntes/api-rest/><span class=pagination__label>Next Post</span>
+<span class=pagination__title></a></a></div><div id=disqus_thread></div><script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return;}
+var d=document,s=d.createElement('script');s.async=true;s.src='//'+"jmillandev"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a><footer class=post__footer><div class=social-icons><a class=social-icons__link title=Twitter href=https://twitter.com/jmillandev target=_blank rel=noopener><div class=social-icons__icon style=background-image:url(https:///jmillandev.github.io/svg/twitter.svg)></div></a><a class=social-icons__link title=GitHub href=https://github.com/jmillandev target=_blank rel=noopener><div class=social-icons__icon style=background-image:url(https:///jmillandev.github.io/svg/github.svg)></div></a><a class=social-icons__link title=LinkedIn href=https://www.linkedin.com/in/jmillandev-42664412a/ target=_blank rel=noopener><div class=social-icons__icon style=background-image:url(https:///jmillandev.github.io/svg/linkedin.svg)></div></a></div><p>© 2022</p></footer></div></div></div></main><script src=/jmillandev.github.io/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr+kQ=" crossorigin=anonymous></script><script src=https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js></script><script src=https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js data-autoloader-path=https://unpkg.com/prismjs@1.20.0/components/></script></body></html>
